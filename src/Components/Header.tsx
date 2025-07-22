@@ -12,10 +12,12 @@ const Header: React.FC = () => {
 
       <nav>
         <ul className={styles.navList}>
+
           <li><a href="#o-que-e" className={styles.navItem}>Inicio</a></li>
           <li><a href="#quem-somos" className={styles.navItem}>Quem somos</a></li>
           <li><a href="#gamificacao" className={styles.navItem}>O que é</a></li>
           <li><a href="#home" className={styles.navItem}>Sobre</a></li>
+
         </ul>
       </nav>
     </header>
