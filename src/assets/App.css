@@ -1,5 +1,6 @@
 /* App.css ou outro arquivo CSS global */
 body {
-    font-family: 'Fredoka', sans-serif;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  /* ADICIONE OU VERIFIQUE SE EXISTE ESTA LINHA: */
+  margin: 0;
+}

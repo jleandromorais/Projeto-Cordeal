@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../Styles/Header.module.css';
-import image2 from './image2.png'; // Importando a imagem
+import image2 from './image2.png';
 
 const Header: React.FC = () => {
   return (
@@ -10,14 +10,13 @@ const Header: React.FC = () => {
         <span className={styles.logoText}>CORDEAL</span>
       </div>
 
-      <nav>
+      {/* Adicionamos uma classe à navegação */}
+      <nav className={styles.navigation}>
         <ul className={styles.navList}>
-
-          <li><a href="#o-que-e" className={styles.navItem}>Inicio</a></li>
+          <li><a href="#o-que-e" className={styles.navItem}>Início</a></li>
           <li><a href="#quem-somos" className={styles.navItem}>Quem somos</a></li>
           <li><a href="#gamificacao" className={styles.navItem}>O que é</a></li>
           <li><a href="#home" className={styles.navItem}>Sobre</a></li>
-
         </ul>
       </nav>
     </header>

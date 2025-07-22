@@ -1,0 +1,152 @@
+/* Seção Sobre */
+.aboutSection {
+  background-color: #FFFFFF;
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+/* Coluna de texto */
+.textColumn {
+  flex: 1;
+}
+
+.sectionTitleWrapper {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #033B5B;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.titleUnderline {
+  width: 50px;
+  height: 4px;
+  background-color: #033B5B;
+  border-radius: 2px;
+}
+
+.descriptionParagraph {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #5A7A8A;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.cordealHeading {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 3rem;
+  color: #033B5B;
+  margin-block: 16px;
+  letter-spacing: 1px;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #F5AD1B;
+}
+
+/* Coluna de imagem */
+.imageColumn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imageStack {
+  position: relative; /* FUNDAMENTAL: Cria o contexto de posicionamento */
+  width: 400px;      /* Defina o tamanho desejado para o conjunto */
+  height: 400px;     /* Defina o tamanho desejado para o conjunto */
+}
+
+/* 2. A imagem de fundo (números) */
+.backgroundImage {
+  position: absolute;   /* Permite o empilhamento */
+  top: 0;
+  left: 0;
+  width: 100%;          /* Ocupa todo o espaço do .imageStack */
+  height: 100%;         /* Ocupa todo o espaço do .imageStack */
+  object-fit: cover;    /* Garante que a imagem cubra a área */
+  z-index: 1;           /* Fica atrás */
+}
+
+/* 3. A imagem da frente (avatar) */
+.foregroundImage {
+  position: absolute;   /* Permite o empilhamento */
+  top: 0;
+  left: 0;
+  width: 100%;          /* Ocupa todo o espaço do .imageStack */
+  height: 100%;         /* Ocupa todo o espaço do .imageStack */
+  object-fit: contain;  /* Garante que o avatar seja totalmente visível */
+  z-index: 2;           /* Fica na FRENTE */
+  /* A sombra agora é aplicada aqui, na imagem que está por cima */
+  filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.15));
+}
+
+
+/* IMPORTANTE: Remova ou comente a regra .avatarImage antiga para evitar conflitos!
+  .avatarImage {
+    max-width: 400px;
+    height: auto;
+    filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.1));
+  }
+*/
+
+
+/* --- SEUS ESTILOS DE RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+  /* ... (suas regras responsivas) ... */
+
+  /* Ajuste o tamanho do container das imagens no mobile também */
+  .imageStack {
+    width: 300px;
+    height: 300px;
+  }
+}
+.avatarImage {
+  max-width: 400px;
+  height: auto;
+  filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.1));
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .textColumn, .imageColumn {
+    width: 100%;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .cordealHeading {
+    font-size: 2.5rem;
+  }
+  
+  .descriptionParagraph {
+    font-size: 1rem;
+  }
+  
+  .avatarImage {
+    max-width: 300px;
+  }
+}

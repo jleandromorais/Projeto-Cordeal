@@ -1,68 +1,66 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  
-  
-  /* Estilo do cabeçalho */
+/* No seu arquivo Header.module.css */
 
-header {
+.header {
   height: 80px;
-  background-color: #FFFFFF;
+  /* MUDANÇA: Cor de fundo alterada para azul claro */
+  background-color: #A8D8F0; 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5% 0 2%; /* Exemplo: apenas 2% de padding à esquerda */
+  padding: 0 5% 0 2%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-  
-  /* Estilo do logo */
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logoIcon {
-    width: 40px;  /* Ajuste de tamanho da imagem */
-    height: 40px;
-    object-fit: cover;  /* Ajusta a imagem para cobrir o espaço sem distorcer */
-     margin-right: 30px;
-  }
-  
-  .logoText {
-    font-family: 'Luckiest Guy', cursive;
-    color: #063F5C;
-    font-weight: bold;
-    font-size: 24px;
-    letter-spacing: 1px;
-  }
-  
-  /* Estilo do menu de navegação */
-  nav ul {
-    display: flex;
-    list-style: none;
-  }
-  
-  nav ul li {
-    margin-left: 25px;
-  }
-  
-  nav ul li a {
-    text-decoration: none;
-    color: #063F5C;
-    font-size: 16px;
-    transition: color 0.3s ease;
-  }
-  
-  nav ul li a:hover {
-    color: #2E8B57;
-  }
-  
+/* Estilo do logo (sem alterações) */
+.logo {
+  display: flex;
+  align-items: center;
+}
+ 
+.logoIcon {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+ 
+.logoText {
+  font-family: 'Luckiest Guy', cursive;
+  color: #033B5B; /* Cor do texto do logo */
+  font-weight: bold;
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Sombra sutil no texto */
+}
+
+/* NOVO: Estilo da navegação com a borda */
+.navigation {
+  display: flex;
+  align-items: center;
+  height: 50%; /* Faz a borda ter 50% da altura do header */
+  /* A linha azul pontilhada */
+  border-left: 2px dashed rgba(6, 63, 92, 0.5);
+  padding-left: 30px; /* Espaço entre a linha e os itens do menu */
+}
+ 
+/* Estilo do menu de navegação */
+.navList {
+  display: flex;
+  list-style: none;
+}
+ 
+.navList li {
+  margin-left: 25px;
+}
+ 
+.navItem {
+  text-decoration: none;
+  color: #033B5B; /* Cor dos itens do menu */
+  font-size: 16px;
+  font-weight: 600; /* Deixa o texto um pouco mais forte */
+  transition: color 0.3s ease;
+}
+ 
+.navItem:hover {
+  color: #FFFFFF; /* Muda para branco no hover */
+}

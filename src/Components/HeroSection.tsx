@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../Styles/HeroSection.module.css';
-import prof from '../Components/image2.png';
+import prof from '../assets/img/avatar.png'; // Importe a imagem do professor
 import numeros from "../assets/img/numeros.png";
 
 const HeroSection: React.FC = () => {

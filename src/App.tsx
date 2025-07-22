@@ -3,7 +3,9 @@ import { Init } from './pages/Init'
 
 import HeroSection from './Components/HeroSection'
 import FunctionalitiesSection from './Components/FunctionalitiesSection';
-
+import AboutSection from './Components/AboutSection';
+import Quem from './Components/QuemSomos'; 
+import WelcomeModal  from './Components/WelcomeModal'
 function App() {
   
 
@@ -13,7 +15,9 @@ function App() {
 
     <HeroSection />
     <FunctionalitiesSection />
-    
+    <AboutSection />
+    <Quem />
+    <WelcomeModal />
     </>     
   );
 
