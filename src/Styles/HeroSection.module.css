@@ -1,0 +1,157 @@
+/* --- MUDANÇA: Importa as fontes 'Luckiest Guy' e 'Poppins' com os pesos necessários --- */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;700&display=swap');
+
+/* Hero Section */
+.hero {
+    display: flex;
+    min-height: 80vh;
+    padding-inline: 4rem;
+    align-items: center;
+    background-color: #ffffff;
+    /* A fonte base foi removida daqui para ser aplicada em cada elemento específico */
+}
+
+/* Layout de duas colunas */
+.hero__content {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hero__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* --- ESTILOS DE TEXTO ATUALIZADOS --- */
+
+.hero__title {
+    font-family: 'Luckiest Guy', cursive; /* <-- FONTE: Luckiest Guy */
+    font-size: 4rem; /* Ajustado para a nova fonte */
+    font-weight: 400; /* 'Luckiest Guy' só tem o peso 400 */
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #033B5B; /* Mantida a cor original do título */
+    margin-bottom: 0.5rem;
+}
+
+.hero__subtitle {
+    font-family: 'Poppins', sans-serif; /* <-- FONTE: Poppins */
+    font-weight: 700; /* <-- PESO: Bold (700) */
+    color: #F5AD1B; /* <-- COR: #F5AD1B */
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.hero__description {
+    font-family: 'Poppins', sans-serif; /* <-- FONTE: Poppins */
+    font-weight: 400; /* <-- PESO: Regular (400) */
+    font-size: 20px; /* <-- TAMANHO: 20px */
+    color: #063F5C; /* <-- COR: #063F5C */
+    opacity: 1; /* Removida a transparência para usar a cor sólida */
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+    line-height: 1.6;
+}
+
+/* --- FIM DOS ESTILOS DE TEXTO ATUALIZADOS --- */
+
+/* Botões (sem alteração) */
+.hero__buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.button {
+    background-color: #033B5B;
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0.8rem 1.8rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(3, 59, 91, 0.2);
+    font-family: 'Poppins', sans-serif; /* Garante que os botões também usem Poppins */
+}
+
+.button:hover {
+    background-color: #022a42;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(3, 59, 91, 0.3);
+}
+
+/* Área da Imagem (sem alteração) */
+.hero__image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarGroup {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.15));
+}
+
+.floatingNumbers {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    opacity: 0.6;
+}
+
+.hero__avatar {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Responsividade (sem alteração) */
+@media (max-width: 992px) {
+    .hero__content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero__text {
+        align-items: center;
+    }
+    .hero__image {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero__title {
+        font-size: 3rem;
+    }
+    .hero__subtitle {
+        font-size: 1.5rem;
+    }
+    .hero__buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .button {
+        width: 100%;
+    }
+}
