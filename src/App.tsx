@@ -1,27 +1,12 @@
-import { useState } from 'react'
-import { Init } from './pages/Init'
+import React from 'react';
+import PagDash from './pages/PagDash'; // Certifique-se que o caminho está correto
+// import './index.css'; // Mantenha a importação dos seus estilos globais
 
-import HeroSection from './Components/HeroSection'
-import FunctionalitiesSection from './Components/FunctionalitiesSection';
-import AboutSection from './Components/AboutSection';
-import Quem from './Components/QuemSomos'; 
-import WelcomeModal  from './Components/WelcomeModal'
 function App() {
-  
-
+  // Por enquanto, vamos renderizar a PagDash diretamente para desenvolvimento.
   return (
-    <>
-    <Init/>
-
-    <HeroSection />
-    <FunctionalitiesSection />
-    <AboutSection />
-    <Quem />
-    <WelcomeModal />
-    </>     
+    <PagDash />
   );
-
-  
 }
 
-export default App
+export default App;

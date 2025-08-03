@@ -1,10 +1,23 @@
 /* Define o modelo de caixa para ser mais intuitivo */
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-
+:root {
+    --primary-yellow: #F7B529;
+    --primary-blue: #E6F2FF;
+    --border-blue: #C5E0FF;
+    --dark-blue: #3B82F6;
+    --event-text-blue: #0B4F6C;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --text-other-month: #B0B0B0;
+    --white: #FFFFFF;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
 /* Remove a margem padrão do navegador e define uma fonte base */
 body {
   margin: 0;
@@ -13,6 +26,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+   background-color: #F8F9FA;
+    color: var(--text-dark);
 }
 
 /* Remove estilos padrão de código, se necessário */

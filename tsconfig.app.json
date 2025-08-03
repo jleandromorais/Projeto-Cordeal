@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsx", /* ✅ Garanta que esta linha apareça SÓ UMA VEZ */
 
     /* Linting */
     "strict": true,

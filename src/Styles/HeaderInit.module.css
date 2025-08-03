@@ -1,0 +1,15 @@
+.mainHeader {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.userProfile {
+    display: flex; align-items: center;
+    gap: 10px; color: #333333;
+}
+.userProfile span { font-weight: 600; }
+.userProfile i { font-size: 28px; }

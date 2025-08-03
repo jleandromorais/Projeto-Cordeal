@@ -1,25 +1,30 @@
+// Em src/Components/HeroSection.tsx
+
 import React from 'react';
 import styles from '../Styles/HeroSection.module.css';
-import prof from '../assets/img/avatar.png'; // Importe a imagem do professor
+import prof from '../assets/img/avatar.png';
 import numeros from "../assets/img/numeros.png";
 
-const HeroSection: React.FC = () => {
+// Defina as props que o componente espera receber
+interface HeroSectionProps {
+  onEnterClick: () => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onEnterClick }) => {
   return (
     <section className={styles.hero}>
       <div className={styles.hero__content}>
         <div className={styles.hero__text}>
           <h1 className={styles.hero__title}>CordEal</h1>
           <p className={styles.hero__subtitle}>Cada exercício é um passo. Cada passo, uma conquista.</p>
-          
-          {/* Texto da descrição atualizado para corresponder à imagem */}
           <p className={styles.hero__description}>
             Cordeal é uma plataforma de aprendizagem gamificada que transforma o estudo em uma jornada envolvente. 
             Com desafios interativos, trilhas personalizadas e ferramentas de monitoramento, estudantes aprendem 
             com mais leveza e educadores acompanham o progresso com clareza.
           </p>
-
           <div className={styles.hero__buttons}>
-            <button className={styles.button}>Entrar</button>
+            {/* O botão "Entrar" agora chama a função recebida via props */}
+            <button className={styles.button} onClick={onEnterClick}>Entrar</button>
             <button className={styles.button}>Cadastrar</button>
             <button className={styles.button}>Saiba mais</button>
           </div>
