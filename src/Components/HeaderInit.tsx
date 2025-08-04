@@ -1,7 +1,9 @@
-import React from 'react';
-import styles from './Header.module.css';
 
-const Header: React.FC = () => {
+import React from 'react';
+// ✅ CORREÇÃO: O caminho correto para o ficheiro de estilos
+import styles from '../Styles/HeaderInit.module.css';
+
+const HeaderInit: React.FC = () => {
   return (
     <header className={styles.mainHeader}>
       <div className={styles.userProfile}>
@@ -12,4 +14,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderInit;

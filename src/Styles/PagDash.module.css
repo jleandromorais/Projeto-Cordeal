@@ -1,13 +1,11 @@
-/* As variáveis de cor devem estar em um arquivo global como 'index.css' */
-
 /* --- Estilos do Layout Principal --- */
-.pageLayout {
-    display: flex;
-}
+/* Este div agora não precisa de estilos especiais */
+.pageLayout {}
 
 .mainContent {
+    /* ✅ MÁGICA ACONTECE AQUI: */
+    margin-top: 70px;  /* Altura do header */
     margin-left: 260px; /* Largura da sidebar */
-    width: calc(100% - 260px);
     padding: 20px;
 }
 
@@ -15,20 +13,27 @@
     margin-top: 20px;
 }
 
-
 /* --- Estilos da Sidebar --- */
 .sidebar {
     position: fixed;
-    top: 0; left: 0; width: 260px; height: 100%;
-    background-color: #8FA9C6; /* Cor de fundo da sidebar */
+    /* ✅ COMEÇA ABAIXO DO HEADER */
+    top: 70px; 
+    left: 0; 
+    width: 260px; 
+    /* ✅ OCUPA O RESTO DA ALTURA */
+    height: calc(100% - 70px);
+    background-color: #8FA9C6;
     padding: 20px;
-    display: flex; flex-direction: column; z-index: 100;
+    display: flex; 
+    flex-direction: column; 
+    z-index: 100;
 }
+/* ... (o resto dos estilos da sidebar continua igual) ... */
 .sidebarHeader { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; padding-left: 10px; color: #FFFFFF; }
 .sidebarHeader i { font-size: 24px; }
 .sidebarHeader h1 { font-size: 22px; font-weight: 700; }
 .sidebarNav { flex-grow: 1; }
-.sidebarNav ul { list-style: none; }
+.sidebarNav ul { list-style: none; padding: 0;}
 .sidebarNav li { margin-bottom: 10px; }
 .navLink { display: flex; align-items: center; gap: 15px; padding: 12px 15px; border-radius: 12px; text-decoration: none; color: #FFFFFF; transition: background-color 0.3s ease; }
 .navLink:hover { background-color: #748DAA; }
@@ -36,15 +41,24 @@
 .navLink i { font-size: 20px; width: 25px; text-align: center; }
 .sidebarFooter a { display: flex; align-items: center; gap: 15px; padding: 12px 15px; text-decoration: none; color: #FFFFFF; }
 
-
 /* --- Estilos do Header --- */
 .mainHeader {
+    /* ✅ FICA FIXO NO TOPO DA PÁGINA */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Altura fixa */
+    z-index: 101; /* Fica acima da sidebar */
+
     display: flex;
     justify-content: flex-end; 
     align-items: center;
-    background-color: #8FA9C6; /* Cor de fundo do header */
-    padding: 15px 20px;
-    border-radius: 12px;
+    background-color: #8FA9C6;
+    padding: 0 40px; /* Ajuste no padding */
+    /* Removemos a borda e a margem para uma aparência mais integrada */
+    border-radius: 0;
+    margin-bottom: 0;
 }
 .userProfile { display: flex; align-items: center; gap: 10px; color: #FFFFFF; }
 .userProfile span { font-weight: 600; }

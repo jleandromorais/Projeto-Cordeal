@@ -1,11 +1,11 @@
 import React from 'react';
 
-// Importe os componentes que formam a página
-import Sidebar from '../Components/Sidebar'; // O seu componente que você já tem
-import Header from '../Components/Header';   // O componente que acabamos de criar
-import Dashboard from '../Components/Dashboard'; // O conteúdo principal da página
+// Importe os seus componentes
+import Sidebar from '../Components/Sidebar';
+import Header from '../Components/HeaderInit'; 
+import Dashboard from '../Components/Dashboard';
 
-// Importe o CSS para o layout da página
+// Importe o CSS para o layout
 import styles from '../Styles/PagDash.module.css';
 
 // --- TIPOS ---
@@ -15,18 +15,18 @@ interface PagDashProps {
 
 const PagDash: React.FC<PagDashProps> = ({ onLogout }) => {
   return (
+    // O div principal agora serve apenas como um invólucro
     <div className={styles.pageLayout}>
-      {/* A Sidebar é importada e recebe a função de logout */}
+      
+      {/* ✅ Header e Sidebar agora estão no mesmo nível */}
+      <Header />
       <Sidebar onLogout={onLogout} />
 
+      {/* O <main> é o contentor do conteúdo que é empurrado para o lugar certo pelo CSS */}
       <main className={styles.mainContent}>
-        <Header />
-        
-        <div className={styles.dashboardContent}>
-          {/* O conteúdo específico da página é renderizado aqui */}
-          <Dashboard />
-        </div>
+        <Dashboard />
       </main>
+      
     </div>
   );
 }

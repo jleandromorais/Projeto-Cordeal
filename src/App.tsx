@@ -1,11 +1,23 @@
-import React from 'react';
-import PagDash from './pages/PagDash'; // Certifique-se que o caminho está correto
-// import './index.css'; // Mantenha a importação dos seus estilos globais
+// Em src/App.tsx
+
+import { useState, useEffect } from 'react'; // Adicione useEffect
+import HeroSection from './Components/HeroSection';
+import FunctionalitiesSection from './Components/FunctionalitiesSection';
+import AboutSection from './Components/AboutSection';
+import Quem from './Components/QuemSomos'; 
+// Importe os dois modais
+import WelcomeModal from './Components/WelcomeModal';
+import ProfileSelectionModal from './Components/ProfileSelectionModal';
+import PagInit  from './pages/PagInit';   
+import PagDash from './pages/PagDash';
 
 function App() {
-  // Por enquanto, vamos renderizar a PagDash diretamente para desenvolvimento.
+  
+
   return (
+    <>
     <PagDash />
+    </>
   );
 }
 
