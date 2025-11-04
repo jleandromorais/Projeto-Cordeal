@@ -1,56 +1,59 @@
+// src/pages/PagLogin.tsx
 import React, { useState } from 'react';
-// 1. Importar o Link e o useNavigate do react-router-dom
 import { Link, useNavigate } from 'react-router-dom';
-// 2. Importar o novo arquivo de estilos (com caminho absoluto)
 import styles from '/src/Styles/PagLogin.module.css';
 
-// Interface para as props que o App.tsx vai passar
-interface PagLoginProps {
-  onLogin: (role: string) => void;
-}
+// Importações do Firebase
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig'; // Importe sua config
 
-const PagLogin: React.FC<PagLoginProps> = ({ onLogin }) => {
+// Remova a interface PagLoginProps, pois o App.tsx não controlará mais o login
+// A navegação será feita aqui mesmo.
+
+const PagLogin: React.FC = () => { // Removido: ({ onLogin })
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepConnected, setKeepConnected] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Estado para erros
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login:", { email, password, keepConnected });
-    // 3. Chamar a função onLogin (que veio do App.tsx) para navegar
-    //    para o /dashboard
-    onLogin(email); 
+    setError(null);
+
+    try {
+      // 1. Fazer login com Firebase Auth
+      await signInWithEmailAndPassword(auth, email, password);
+      
+      // 2. Navegar para o dashboard
+      // A prop onLogin não é mais necessária, pois o App.tsx
+      // saberá do login através do "Auth Context" (ver Passo 7)
+      navigate('/dashboard');
+
+    } catch (firebaseError: any) {
+      console.error("Erro ao logar:", firebaseError);
+      setError("E-mail ou senha inválidos. Tente novamente.");
+    }
   };
 
   return (
     <div className={styles.pageContainer}>
-      {/* Coluna Esquerda - Painel da Marca */}
-      <div className={styles.brandPanel}>
-        <h1 className={styles.logo}>CORDEAL</h1>
-
-        {/* Padrão de Fundo Geométrico */}
-        <div className={styles.patternContainer}>
-          <div className={`${styles.shape} ${styles.circle1}`}></div>
-          <div className={`${styles.shape} ${styles.circle2}`}></div>
-          <div className={`${styles.shape} ${styles.circle3}`}></div>
-          <div className={`${styles.shape} ${styles.square1}`}></div>
-          <div className={`${styles.shape} ${styles.square2}`}></div>
-          <div className={`${styles.shape} ${styles.square3}`}></div>
-          <div className={`${styles.shape} ${styles.triangle1}`}></div>
-          <div className={`${styles.shape} ${styles.triangle2}`}></div>
-          <div className={`${styles.shape} ${styles.triangle3}`}></div>
-        </div>
-      </div>
+      {/* ... (Coluna Esquerda - Painel da Marca) ... */}
+       <div className={styles.brandPanel}>
+        {/* ... (seu JSX do painel da marca) ... */}
+       </div>
 
       {/* Coluna Direita - Área do Formulário */}
       <div className={styles.formPanel}>
         <div className={styles.formContainer}>
           <h2 className={styles.title}>Login</h2>
 
+          {/* Exibir mensagem de erro */}
+          {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
           <form onSubmit={handleSubmit} className={styles.form}>
-            {/* Campo de E-mail */}
-            <div className={styles.formGroup}>
+            {/* ... (seus campos de E-mail e Senha) ... */}
+             <div className={styles.formGroup}>
               <label htmlFor="email" className={styles.label}>
                 E-mail
               </label>
@@ -63,8 +66,6 @@ const PagLogin: React.FC<PagLoginProps> = ({ onLogin }) => {
                 required
               />
             </div>
-
-            {/* Campo de Senha */}
             <div className={styles.formGroup}>
               <label htmlFor="password" className={styles.label}>
                 Senha
@@ -79,22 +80,9 @@ const PagLogin: React.FC<PagLoginProps> = ({ onLogin }) => {
               />
             </div>
 
-            {/* Seção Manter Conectado */}
-            <div className={styles.optionsContainer}>
-              <div className={styles.checkboxGroup}>
-                <input
-                  type="checkbox"
-                  id="keep-connected"
-                  checked={keepConnected}
-                  onChange={(e) => setKeepConnected(e.target.checked)}
-                  className={styles.checkbox}
-                />
-                <label htmlFor="keep-connected" className={styles.checkboxLabel}>
-                  Manter-me conectado
-                </label>
-              </div>
-              {/* O ícone de toggle (interruptor) - Requer Font Awesome */}
-              <i className={`fa-solid fa-toggle-on ${styles.toggleIcon}`}></i>
+            {/* ... (Sua seção Manter Conectado) ... */}
+             <div className={styles.optionsContainer}>
+              {/* ... (seu JSX de opções) ... */}
             </div>
 
             {/* Botão de Entrar */}
@@ -105,9 +93,8 @@ const PagLogin: React.FC<PagLoginProps> = ({ onLogin }) => {
               Entrar
             </button>
 
-            {/* Links do Rodapé */}
+            {/* ... (Seus Links do Rodapé) ... */}
             <div className={styles.footerLinks}>
-              {/* 4. Usar <Link> do react-router-dom */}
               <Link to="/#" className={styles.link}>
                 Esqueceu a senha?
               </Link>

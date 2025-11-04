@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
+// 1. Importar o hook useNavigate
+import { useNavigate } from 'react-router-dom';
 
-// 1. O 'Header' foi REMOVIDO daqui
-import HeroSection from '../Components/HeroSection.tsx';
-import FunctionalitiesSection from '../Components/FunctionalitiesSection.tsx';
-import AboutSection from '../Components/AboutSection.tsx';
-import QuemSomos from '../Components/QuemSomos.tsx'; 
-import WelcomeModal from '../Components/WelcomeModal.tsx';
-import ProfileSelectionModal from '../Components/ProfileSelectionModal.tsx';
+// 2. CORREÇÃO: Importes relativos e sem extensão .tsx
+import HeroSection from '../Components/HeroSection';
+import FunctionalitiesSection from '../Components/FunctionalitiesSection';
+import AboutSection from '../Components/AboutSection';
+import QuemSomos from '../Components/QuemSomos'; 
+import WelcomeModal from '../Components/WelcomeModal';
+import ProfileSelectionModal from '../Components/ProfileSelectionModal';
 
-// 2. Defina as props que esta página espera receber
+// 3. A prop onLogin não é mais necessária aqui
 interface PagInitProps {
-  onLogin: (role: string) => void;
+  // onLogin: (role: string) => void; // Removido
 }
 
-// 3. O componente principal da página
-const PagInit: React.FC<PagInitProps> = ({ onLogin }) => {
+// 4. O componente principal da página
+const PagInit: React.FC<PagInitProps> = () => {
   
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState<boolean>(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  // 5. Inicializar o hook de navegação
+  const navigate = useNavigate();
 
   useEffect(() => {
     const hasSeenWelcome = localStorage.getItem('hasSeenWelcomeModal');
@@ -32,15 +36,19 @@ const PagInit: React.FC<PagInitProps> = ({ onLogin }) => {
     setIsProfileModalOpen(true);  
   };
 
+  // 6. Função de seleção de perfil ATUALIZADA
   const handleProfileSelect = (role: string): void => {
     console.log(`Perfil selecionado: ${role}`);
-    onLogin(role); // Chama a função que veio do App.tsx
+    // Em vez de fazer login, navega para a tela de login
+    navigate('/login'); 
   };
 
   return (
     <>
-      {/* O <Header /> NÃO está mais aqui (será renderizado pelo MainLayout) */}
+      {/* O Header foi removido daqui (está no MainLayout) */}
 
+      {/* 7. Botão "Entrar" da HeroSection ATUALIZADO */}
+      {/* CORREÇÃO: Agora ele abre o modal de seleção de perfil */}
       <HeroSection onEnterClick={() => setIsProfileModalOpen(true)} />
 
       <FunctionalitiesSection />
@@ -59,10 +67,12 @@ const PagInit: React.FC<PagInitProps> = ({ onLogin }) => {
       <ProfileSelectionModal 
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
-        onProfileSelect={handleProfileSelect}
+        onProfileSelect={handleProfileSelect} // Esta função agora navega para /login
       />
     </>      
   );
 } 
 
 export default PagInit;
+
+
