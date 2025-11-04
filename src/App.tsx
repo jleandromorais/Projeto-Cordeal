@@ -1,45 +1,58 @@
-// Em src/App.tsx
+import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import PagInit from './pages/PagInit';
-import PagDash from './pages/PagDash';
+// Importando as Páginas (com caminhos relativos)
+import PagInit from './pages/PagInit.tsx';
+import PagDash from './pages/PagDash.tsx';
+import PagCadastro from './pages/PagCadastro.tsx';
+import PagLogin from './pages/PagLogin.tsx'; 
+
+// Importando o Layout e o Header
+import Header from './Components/Header.tsx'; 
+import MainLayout from './pages/MainLayout.tsx';
 
 function App() {
-  // O hook useNavigate nos permite forçar a navegação
   const navigate = useNavigate();
 
-  // 1. Esta função será passada para PagInit
-  //    Quando o usuário logar, ela será chamada e o levará ao dashboard
+  // Esta função agora é usada apenas pela PagLogin
   const handleLogin = (role: string) => {
     console.log(`Usuário logado como: ${role}`);
-    navigate('/dashboard'); // Redireciona para a página do dashboard
+    navigate('/dashboard'); 
   };
 
-  // 2. Esta função será passada para PagDash
-  //    Quando o usuário clicar em "Sair", ela será chamada e o levará para a home
   const handleLogout = () => {
     console.log('Usuário deslogado');
-    navigate('/'); // Redireciona para a página inicial
+    navigate('/');
   };
 
   return (
-    // O <Routes> define a área onde as páginas serão trocadas
     <Routes>
-      {/* Rota 1: A página inicial (path="/") */}
-      <Route 
-        path="/" 
-        element={<PagInit onLogin={handleLogin} />} 
-      />
-      
-      {/* Rota 2: A página do dashboard (path="/dashboard") */}
+      {/* Rota 1: Páginas com o Header principal */}
+      <Route path="/" element={<MainLayout />}>
+        <Route 
+          index
+          // ✅ CORREÇÃO: Removida a prop onLogin daqui
+          element={<PagInit />} 
+        />
+        <Route 
+          path="cadastro"
+          element={<PagCadastro />} 
+        />
+      </Route>
+
+      {/* Rota 2: Dashboard (Layout Próprio) */}
       <Route 
         path="/dashboard" 
         element={<PagDash onLogout={handleLogout} />} 
       />
 
-      {/* Você pode adicionar outras rotas aqui, como /cadastro, /perfil, etc. */}
+      {/* Rota 3: Login (Layout Próprio) */}
+      <Route 
+        path="/login"
+        element={<PagLogin onLogin={handleLogin} />}
+      />
     </Routes>
   );
 }
 
 export default App;
+

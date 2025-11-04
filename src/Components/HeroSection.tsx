@@ -1,9 +1,12 @@
 // Em src/Components/HeroSection.tsx
 
 import React from 'react';
-import styles from '../Styles/HeroSection.module.css';
-import prof from '../assets/img/avatar.png';
-import numeros from "../assets/img/numeros.png";
+// ✅ 1. Importar o hook useNavigate
+import { useNavigate } from 'react-router-dom';
+// CORREÇÃO: Mudando para caminhos absolutos
+import styles from '/src/Styles/HeroSection.module.css';
+import prof from '/src/assets/img/avatar.png';
+import numeros from "/src/assets/img/numeros.png";
 
 // Defina as props que o componente espera receber
 interface HeroSectionProps {
@@ -11,6 +14,9 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onEnterClick }) => {
+  // ✅ 2. Inicializar o hook
+  const navigate = useNavigate();
+
   return (
     <section className={styles.hero}>
       <div className={styles.hero__content}>
@@ -25,7 +31,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onEnterClick }) => {
           <div className={styles.hero__buttons}>
             {/* O botão "Entrar" agora chama a função recebida via props */}
             <button className={styles.button} onClick={onEnterClick}>Entrar</button>
-            <button className={styles.button}>Cadastrar</button>
+            
+            {/* ✅ 3. Adicionar o onClick para navegar para a rota de cadastro */}
+            <button 
+              className={styles.button} 
+              onClick={() => navigate('/cadastro')}
+            >
+              Cadastrar
+            </button>
+            
             <button className={styles.button}>Saiba mais</button>
           </div>
         </div>
@@ -41,3 +55,4 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onEnterClick }) => {
 };
 
 export default HeroSection;
+

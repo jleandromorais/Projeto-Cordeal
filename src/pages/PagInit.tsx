@@ -1,42 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-// 1. Importe os seus componentes reais a partir da pasta de componentes
-import Header from '../Components/Header'; // Usando o Header da página inicial
-import HeroSection from '../Components/HeroSection';
-import FunctionalitiesSection from '../Components/FunctionalitiesSection';
-import AboutSection from '../Components/AboutSection';
-import QuemSomos from '../Components/QuemSomos'; 
-import WelcomeModal from '../Components/WelcomeModal';
-import ProfileSelectionModal from '../Components/ProfileSelectionModal';
+// 1. O 'Header' foi REMOVIDO daqui
+import HeroSection from '../Components/HeroSection.tsx';
+import FunctionalitiesSection from '../Components/FunctionalitiesSection.tsx';
+import AboutSection from '../Components/AboutSection.tsx';
+import QuemSomos from '../Components/QuemSomos.tsx'; 
+import WelcomeModal from '../Components/WelcomeModal.tsx';
+import ProfileSelectionModal from '../Components/ProfileSelectionModal.tsx';
 
-// 2. Defina as props que esta página espera receber (opcional, mas bom para o futuro)
+// 2. Defina as props que esta página espera receber
 interface PagInitProps {
   onLogin: (role: string) => void;
 }
 
-// 3. O componente principal da página, agora corretamente estruturado e tipado
+// 3. O componente principal da página
 const PagInit: React.FC<PagInitProps> = ({ onLogin }) => {
   
-  // 4. Toda a sua lógica de estado e funções está agora dentro do componente
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState<boolean>(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
 
-  // Efeito para abrir o modal de boas-vindas na primeira visita
   useEffect(() => {
     const hasSeenWelcome = localStorage.getItem('hasSeenWelcomeModal');
     if (!hasSeenWelcome) {
       setIsWelcomeModalOpen(true);
     }
-  }, []); // O array vazio [] faz isto rodar apenas uma vez quando o app inicia
+  }, []); 
 
-  // Função para o fluxo do modal de boas-vindas
   const handleWelcomeEnter = (): void => {
-    localStorage.setItem('hasSeenWelcomeModal', 'true'); // Marca como visto
-    setIsWelcomeModalOpen(false); // Fecha o primeiro modal
-    setIsProfileModalOpen(true);  // Abre o segundo modal
+    localStorage.setItem('hasSeenWelcomeModal', 'true'); 
+    setIsWelcomeModalOpen(false); 
+    setIsProfileModalOpen(true);  
   };
 
-  // Função para lidar com a seleção de perfil e chamar a função de login
   const handleProfileSelect = (role: string): void => {
     console.log(`Perfil selecionado: ${role}`);
     onLogin(role); // Chama a função que veio do App.tsx
@@ -44,16 +39,14 @@ const PagInit: React.FC<PagInitProps> = ({ onLogin }) => {
 
   return (
     <>
-      <Header />
+      {/* O <Header /> NÃO está mais aqui (será renderizado pelo MainLayout) */}
 
-      {/* A HeroSection abre o modal de seleção de perfil ao clicar em "Entrar" */}
       <HeroSection onEnterClick={() => setIsProfileModalOpen(true)} />
 
       <FunctionalitiesSection />
       <AboutSection />
       <QuemSomos />
 
-      {/* Os modais são controlados pelo estado desta página */}
       <WelcomeModal
         isOpen={isWelcomeModalOpen}
         onClose={() => {
