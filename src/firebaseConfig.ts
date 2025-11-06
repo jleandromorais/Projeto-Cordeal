@@ -1,22 +1,28 @@
 // src/firebaseConfig.ts
 import { initializeApp } from "firebase/app";
+// IMPORTANTE: Adicione as importações do Auth e Firestore
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+// (O getAnalytics é opcional, mas vamos manter o que você colou)
+import { getAnalytics } from "firebase/analytics";
 
-// TODO: Substitua isto pela configuração do seu projeto Firebase
+// Suas chaves corretas que você acabou de colar
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyDsCC1NRCBkdLs8Upx9E-lKd0zmGfVPAgw",
+  authDomain: "projeto-cordeal.firebaseapp.com",
+  projectId: "projeto-cordeal",
+  storageBucket: "projeto-cordeal.firebasestorage.app",
+  messagingSenderId: "1062964883330",
+  appId: "1:1062964883330:web:27306be528073c037e699b",
+  measurementId: "G-KM66MHT8HY"
 };
 
-// Inicializa o Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// Exporta os serviços que você usará
+// --- ISSO ESTAVA FALTANDO ---
+// Exporte os serviços que seus outros arquivos precisam
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 

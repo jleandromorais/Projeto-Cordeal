@@ -1,41 +1,66 @@
-/* Arquivo: src/Styles/PagLogin.module.css
-  Estilos para a nova página de login.
-*/
+/* Importa as fontes do Google */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600;700&display=swap');
 
-.pageContainer {
-  display: grid;
-  /* Proporção 40% (2fr) / 60% (3fr) */
-  grid-template-columns: 2fr 3fr;
+/* Estilo base e container principal */
+.container {
   height: 100vh;
   width: 100vw;
+  display: grid;
+  /* 2 colunas para a esquerda, 3 para a direita */
+  grid-template-columns: 2fr 3fr;
   font-family: 'Poppins', sans-serif;
+  /* Equivalente a 'antialiased' */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Coluna Esquerda (Brand Panel) --- */
+
+.brandPanel {
+  background-color: #5FA8D3;
+  position: relative;
   overflow: hidden;
 }
 
-/* Coluna Esquerda */
-.brandPanel {
-  background-color: #5FA8D3;
-  padding: 3rem; /* p-12 */
-  position: relative;
-  overflow: hidden;
+.logoContainer {
+  padding: 48px; /* 12 * 4px = p-12 */
 }
 
 .logo {
   font-size: 2.25rem; /* text-4xl */
   line-height: 2.5rem;
-  color: #FFFFFF;
-  /* Importado no index.html */
+  color: white;
   font-family: 'Luckiest Guy', cursive;
-  position: relative; /* Garante que o logo fique acima do padrão */
-  z-index: 2;
 }
 
-/* Coluna Direita */
-.formPanel {
-  background-color: #FFFFFF;
+/* Padrão Geométrico */
+.geoPattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.geoShape {
+  position: absolute;
+  background-color: #4A8AB0;
+}
+
+.geoTriangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-bottom-color: #4A8AB0;
+  border-left-style: solid;
+  border-right-style: solid;
+}
+
+/* --- Coluna Direita (Form Area) --- */
+
+.formArea {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 }
 
 .formContainer {
@@ -43,11 +68,12 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* gap-8 */
-  padding: 1rem;
+  gap: 32px; /* gap-8 */
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
 }
 
-.title {
+.formTitle {
   font-size: 1.875rem; /* text-3xl */
   line-height: 2.25rem;
   font-weight: 700;
@@ -57,135 +83,106 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* gap-6 */
+  gap: 24px; /* gap-6 */
 }
 
-.formGroup {
+.formField {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* gap-2 */
+  gap: 8px; /* gap-2 */
 }
 
-.label {
+.formLabel {
   font-size: 0.875rem; /* text-sm */
   line-height: 1.25rem;
   color: #5A7A8A;
 }
 
-/* Estilo de Input "Underline" */
-.input {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.formInput {
+  padding-top: 8px; /* py-2 */
+  padding-bottom: 8px; /* py-2 */
   background-color: transparent;
-  border: none;
+  border: 0;
   border-bottom: 2px solid #CCCCCC;
   outline: none;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem; /* Tamanho da fonte no input */
   transition: border-color 0.2s ease-in-out;
+  font-family: 'Poppins', sans-serif;
 }
 
-.input:focus {
+.formInput:focus {
   border-bottom-color: #033B5B;
 }
 
-/* Seção de Opções (Checkbox) */
-.optionsContainer {
+.optionsRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.checkboxGroup {
+.keepConnected {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* gap-2 */
+  gap: 8px; /* gap-2 */
 }
 
 .checkbox {
-  /* Estilizando o checkbox padrão */
-  width: 1.25rem; /* h-5 w-5 */
-  height: 1.25rem;
-  border-radius: 6px;
-  border: 2px solid #5FA8D3;
-  /* Cor principal do checkbox */
-  accent-color: #5FA8D3;
-  cursor: pointer;
+  height: 20px; /* h-5 */
+  width: 20px; /* w-5 */
+  border-radius: 0.375rem; /* rounded-md */
+  border: 1px solid #5FA8D3;
 }
 
-.checkboxLabel {
+.checkbox[data-state='checked'] {
+  background-color: #5FA8D3;
+  border-color: #5FA8D3;
+}
+
+.keepConnectedLabel {
   font-size: 0.875rem; /* text-sm */
   line-height: 1.25rem;
-  color: #5A7A8A;
   cursor: pointer;
-  user-select: none; /* Impede a seleção do texto ao clicar */
+  color: #5A7A8A;
 }
 
 .toggleIcon {
-  font-size: 1.5rem; /* w-6 h-6 */
+  width: 24px; /* w-6 */
+  height: 24px; /* h-6 */
   color: #033B5B;
-  transform: scaleX(-1) rotate(180deg); /* Ajuste para 'toggle-left' */
 }
 
-/* Botão de Entrar */
 .submitButton {
   width: 100%;
-  padding-top: 0.75rem; /* py-3 */
-  padding-bottom: 0.75rem;
+  padding-top: 12px; /* py-3 */
+  padding-bottom: 12px; /* py-3 */
   border-radius: 0.5rem; /* rounded-lg */
-  color: #FFFFFF;
-  font-weight: 600;
-  font-size: 1rem;
+  color: white;
+  font-weight: 600; /* font-semibold */
   font-family: 'Poppins', sans-serif;
+  transition: opacity 0.2s ease-in-out;
   background-color: #5FA8D3;
   box-shadow: 0 4px 10px rgba(95, 168, 211, 0.4);
   border: none;
   cursor: pointer;
-  transition: opacity 0.2s ease;
 }
 
 .submitButton:hover {
   opacity: 0.9;
 }
 
-/* Links do Rodapé */
 .footerLinks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem; /* gap-2 */
+  gap: 8px; /* gap-2 */
 }
 
-.link {
+.footerLink {
   font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
   color: #5A7A8A;
   text-decoration: none;
 }
 
-.link:hover {
+.footerLink:hover {
   text-decoration: underline;
 }
-
-
-/* Padrão de Fundo (Formas) */
-.patternContainer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-.shape {
-  position: absolute;
-  background-color: #4A8AB0; /* Cor das formas */
-  opacity: 0.2;
-}
-.circle1 { width: 8rem; height: 8rem; border-radius: 9999px; transform: rotate(12deg); top: 15%; left: 10%; }
-.circle2 { width: 6rem; height: 6rem; border-radius: 9999px; transform: rotate(-45deg); top: 60%; right: 15%; opacity: 0.3; }
-.circle3 { width: 4rem; height: 4rem; border-radius: 9999px; transform: rotate(90deg); bottom: 20%; left: 25%; }
-.square1 { width: 7rem; height: 7rem; transform: rotate(45deg); top: 40%; left: 15%; }
-.square2 { width: 5rem; height: 5rem; transform: rotate(-12deg); top: 25%; right: 20%; opacity: 0.3; }
-.square3 { width: 6rem; height: 6rem; transform: rotate(12deg); bottom: 15%; right: 25%; }
-/* Triângulos (feitos com bordas) */
-.triangle1 { width: 0; height: 0; border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid #4A8AB0; background-color: transparent; transform: rotate(45deg); top: 50%; right: 10%; }
-.triangle2 { width: 0; height: 0; border-left: 30px solid transparent; border-right: 30px solid transparent; border-bottom: 50px solid #4A8AB0; background-color: transparent; transform: rotate(-12deg); top: 70%; left: 40%; opacity: 0.3; }
-.triangle3 { width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent; border-bottom: 45px solid #4A8AB0; background-color: transparent; transform: rotate(90deg); top: 10%; left: 50%; }

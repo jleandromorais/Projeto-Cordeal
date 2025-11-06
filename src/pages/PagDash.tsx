@@ -1,9 +1,9 @@
 import React from 'react';
 
-// Importe os seus componentes
+// Importe os seus componentes (sem .tsx)
 import Sidebar from '../Components/Sidebar';
 import Header from '../Components/HeaderInit'; 
-import Dashboard from '../Components/Dashboard';
+import Dashboard from '../Components/Dashboard'; // Esta é a linha que dava o erro
 
 // Importe o CSS para o layout
 import styles from '../Styles/PagDash.module.css';
@@ -18,7 +18,7 @@ const PagDash: React.FC<PagDashProps> = ({ onLogout }) => {
     // O div principal agora serve apenas como um invólucro
     <div className={styles.pageLayout}>
       
-      {/* ✅ Header e Sidebar agora estão no mesmo nível */}
+      {/* Header e Sidebar agora estão no mesmo nível */}
       <Header />
       <Sidebar onLogout={onLogout} />
 
