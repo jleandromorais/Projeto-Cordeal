@@ -1,96 +1,154 @@
-/* As variáveis de cor devem estar em um arquivo global como 'index.css' */
-:root {
-    --sidebar-bg: #8FA9C6; 
-    --sidebar-active-bg: #748DAA;
-    --sidebar-text: #063F5C; /* Cor do texto e ícones */
-    --text-white: #FFFFFF;
-    --border-radius: 12px;
-}
+/* src/Styles/Sidebar.module.css */
 
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100%;
-    background-color: var(--sidebar-bg);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
+  /* A tua cor escolhida */
+  background-color: #419EBF80; 
+  /* Efeito de vidro (blur) para ficar bonito com a transparência */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  width: 250px; /* Largura Aberto */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  
+  /* Sombra suave */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  
+  transition: width 0.3s ease;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  z-index: 100;
+  color: #063F5C; /* Texto Base Branco */
 }
 
+/* --- ESTADO FECHADO --- */
+.sidebar.collapsed {
+  width: 80px;
+  padding: 20px 10px;
+}
+
+/* Header */
 .sidebarHeader {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 40px;
-    padding-left: 10px;
-    /* Aplica a cor do texto ao cabeçalho */
-    color: var(--sidebar-text); 
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  height: 40px;
+  white-space: nowrap;
 }
 
-.sidebarHeader i {
-    font-size: 24px;
+.toggleBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #063F5C; /* Ícone Branco */
+  cursor: pointer;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s;
+}
+
+.toggleBtn:hover {
+  opacity: 0.7; /* Efeito suave no hover */
 }
 
 .sidebarHeader h1 {
-    font-size: 22px;
-    font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #063F5C; /* Título Branco */
+  margin: 0;
 }
 
+.collapsed .sidebarHeader {
+  justify-content: center;
+}
+
+/* Navigation */
 .sidebarNav {
-    flex-grow: 1;
+  flex: 1;
 }
 
 .sidebarNav ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.sidebarNav li {
-    margin-bottom: 10px;
-}
-
+/* Links */
 .navLink {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    /* O texto do link começa com a cor azul escura */
-    color: var(--sidebar-text);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  
+  /* Texto Branco com leve transparência para itens inativos */
+  color: rgba(255, 255, 255, 0.9);
+  
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  white-space: nowrap;
+  height: 45px;
 }
 
-.navLink:hover {
-    background-color: var(--sidebar-active-bg);
-    /* O texto fica branco ao passar o mouse */
-    color: var(--text-white); 
-}
-
-.navLink.active {
-    background-color: var(--sidebar-active-bg);
-    font-weight: 600;
-    /* O texto do link ativo também é branco */
-    color: var(--text-white); 
+/* Hover e Ativo */
+.navLink:hover, .navLink.active {
+  background-color: rgba(255, 255, 255, 0.25); /* Fundo branco translúcido */
+  color: #063F5C; /* Branco total */
+  font-weight: 500;
 }
 
 .navLink i {
-    font-size: 20px;
-    width: 25px;
-    text-align: center;
+  width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.collapsed .navLink {
+  justify-content: center;
+}
+
+/* Footer (Logout) */
+.sidebarFooter {
+  margin-top: auto;
 }
 
 .sidebarFooter a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    text-decoration: none;
-    /* O link de sair também usa a cor azul escura */
-    color: var(--sidebar-text);
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  
+  /* Um vermelho clarinho ou branco para sair */
+  color: #ffeaea; 
+  
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.sidebarFooter a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff6b6b;
+}
+
+.sidebarFooter i {
+  width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.collapsed .sidebarFooter a {
+  justify-content: center;
 }

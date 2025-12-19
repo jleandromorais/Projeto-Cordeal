@@ -1,65 +1,28 @@
-/* --- Estilos do Layout Principal --- */
-/* Este div agora não precisa de estilos especiais */
-.pageLayout {}
+/* src/Styles/PagDash.module.css */
 
+.pageLayout {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  
+  /* Define as áreas: Header em cima, Sidebar na esquerda, Main na direita */
+  grid-template-areas: 
+    "header header"
+    "sidebar main";
+    
+  /* Colunas: Sidebar ajusta ao conteúdo, Main ocupa o resto */
+  grid-template-columns: auto 1fr;
+  /* Linhas: Header ajusta, Conteúdo ocupa o resto */
+  grid-template-rows: auto 1fr;
+  
+  overflow: hidden;
+}
+
+/* Área do Conteúdo Principal (Onde fica o boneco e os gráficos) */
 .mainContent {
-    /* ✅ MÁGICA ACONTECE AQUI: */
-    margin-top: 70px;  /* Altura do header */
-    margin-left: 260px; /* Largura da sidebar */
-    padding: 20px;
+  grid-area: main;
+  background-color: #f5f7fa; /* Fundo cinza claro para o conteúdo */
+  padding: 20px;
+  overflow-y: auto; /* Permite rolar se tiver muita coisa */
+  height: 100%;
 }
-
-.dashboardContent {
-    margin-top: 20px;
-}
-
-/* --- Estilos da Sidebar --- */
-.sidebar {
-    position: fixed;
-    /* ✅ COMEÇA ABAIXO DO HEADER */
-    top: 70px; 
-    left: 0; 
-    width: 260px; 
-    /* ✅ OCUPA O RESTO DA ALTURA */
-    height: calc(100% - 70px);
-    background-color: #8FA9C6;
-    padding: 20px;
-    display: flex; 
-    flex-direction: column; 
-    z-index: 100;
-}
-/* ... (o resto dos estilos da sidebar continua igual) ... */
-.sidebarHeader { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; padding-left: 10px; color: #FFFFFF; }
-.sidebarHeader i { font-size: 24px; }
-.sidebarHeader h1 { font-size: 22px; font-weight: 700; }
-.sidebarNav { flex-grow: 1; }
-.sidebarNav ul { list-style: none; padding: 0;}
-.sidebarNav li { margin-bottom: 10px; }
-.navLink { display: flex; align-items: center; gap: 15px; padding: 12px 15px; border-radius: 12px; text-decoration: none; color: #FFFFFF; transition: background-color 0.3s ease; }
-.navLink:hover { background-color: #748DAA; }
-.navLink.active { background-color: #748DAA; font-weight: 600; }
-.navLink i { font-size: 20px; width: 25px; text-align: center; }
-.sidebarFooter a { display: flex; align-items: center; gap: 15px; padding: 12px 15px; text-decoration: none; color: #FFFFFF; }
-
-/* --- Estilos do Header --- */
-.mainHeader {
-    /* ✅ FICA FIXO NO TOPO DA PÁGINA */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px; /* Altura fixa */
-    z-index: 101; /* Fica acima da sidebar */
-
-    display: flex;
-    justify-content: flex-end; 
-    align-items: center;
-    background-color: #8FA9C6;
-    padding: 0 40px; /* Ajuste no padding */
-    /* Removemos a borda e a margem para uma aparência mais integrada */
-    border-radius: 0;
-    margin-bottom: 0;
-}
-.userProfile { display: flex; align-items: center; gap: 10px; color: #FFFFFF; }
-.userProfile span { font-weight: 600; }
-.userProfile i { font-size: 28px; }

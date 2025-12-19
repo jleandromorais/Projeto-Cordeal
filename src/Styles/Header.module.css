@@ -3,7 +3,7 @@
 .header {
   height: 80px;
   /* MUDANÇA: Cor de fundo alterada para azul claro */
-  background-color: #A8D8F0; 
+  background-color: #419EBF80; 
   display: flex;
   justify-content: space-between;
   align-items: center;

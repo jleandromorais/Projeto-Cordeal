@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import styles from '../Styles/Dashboard.module.css';
 import type { JSX } from 'react';
-import { useAuth } from '../AuthContext'; 
+import { useAuth } from '../AuthContext';
+import pokemom from '../assets/img/pokemon.png';
+import ChatWidget from './ChatWidget';
 
 // --- Tipos ---
 interface EventData {
@@ -34,6 +36,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   
   // Estados de dados
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [metrics, setMetrics] = useState({ questoesRespondidas: 0, horasDedicadas: 0 });
   const [events, setEvents] = useState<Events>({}); 
   const [notes, setNotes] = useState<string>(''); // [NOVO] Estado para as notas
@@ -246,7 +249,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
                 <p>Seja bem vindo(a).</p>
                 <p>Supere seus desafios e trace novos objetivos.</p>
             </div>
-            <div className={styles.welcomeImage}></div>
+           <img 
+                src={pokemom} 
+                alt="Bem vindo" 
+                className={styles.welcomeImage} 
+            />
         </section>
 
         <section className={styles.metricsRow}>
@@ -296,8 +303,18 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
         </div>
       </div>
 
-      <button className={styles.fab}><i className="fas fa-comment"></i></button>
+{/* Botão Flutuante */}
+      <button 
+        className={styles.fab} 
+        onClick={() => setIsChatOpen(!isChatOpen)} // <--- Abre/Fecha
+      >
+        <i className={`fas ${isChatOpen ? 'fa-times' : 'fa-comment'}`}></i>
+      </button>
       
+      {/* O Componente do Chat */}
+      {isChatOpen && (
+        <ChatWidget onClose={() => setIsChatOpen(false)} />
+      )}      
       {/* Tooltip */}
       {tooltipData.visible && (
         <div className={styles.eventTooltip} style={{ left: tooltipData.x, top: tooltipData.y }}>

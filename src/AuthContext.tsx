@@ -38,10 +38,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loading
   };
 
-  // Não renderiza o app até sabermos se o usuário está logado ou não
+  // CORREÇÃO AQUI:
+  // Se estiver a carregar, mostra uma mensagem simples ao centro em vez de nada.
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        A carregar...
+      </div>
+    );
+  }
+
+  // Quando o loading termina, mostra a aplicação (children)
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

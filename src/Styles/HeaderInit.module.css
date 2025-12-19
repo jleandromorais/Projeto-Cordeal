@@ -2,9 +2,9 @@
     display: flex;
     justify-content: flex-end; 
     align-items: center;
-    background-color:  #8FA9C6;
+    background-color:  #419EBF80;
     padding: 15px 20px;
-    border-radius: 12px;
+    border-radius: 0px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 .userProfile {

@@ -2,26 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext'; 
 
-// Importe os seus componentes
 import Sidebar from '../Components/Sidebar';
-import Header from '../Components/HeaderInit'; // Importa o HeaderInit
-import { Dashboard } from '../Components/Dashboard'; // Importa o Dashboard
-
-// Importe o CSS
+import Header from '../Components/HeaderInit';
+import { Dashboard } from '../Components/Dashboard';
 import styles from '../Styles/PagDash.module.css';
 
-// --- TIPOS ---
 interface PagDashProps {
   onLogout: () => void;
 }
 
 const PagDash: React.FC<PagDashProps> = ({ onLogout }) => {
-  
-  // 1. O estado do nome e o 'currentUser' ficam aqui (no "pai")
   const { currentUser } = useAuth();
-  const [userName, setUserName] = useState<string>("..."); // O estado vive aqui
+  const [userName, setUserName] = useState<string>("...");
 
-  // 2. O useEffect que busca o nome do utilizador fica aqui
   useEffect(() => {
     if (currentUser) {
       const fetchUserData = async () => {
@@ -30,39 +23,47 @@ const PagDash: React.FC<PagDashProps> = ({ onLogout }) => {
           const authHeader = { 'Authorization': `Bearer ${token}` };
           const API_URL = 'http://localhost:3001/api';
 
-          // Busca os dados do utilizador
-          const userRes = await fetch(`${API_URL}/user/me`, { headers: authHeader });
-          if (!userRes.ok) throw new Error('Falha ao buscar dados do utilizador');
+          // CORREÇÃO 1: A rota correta é /user/profile
+          const userRes = await fetch(`${API_URL}/user/profile`, { headers: authHeader });
+          
+          if (!userRes.ok) throw new Error('Falha ao buscar dados');
           
           const userData = await userRes.json();
-          setUserName(userData.nome || 'Utilizador'); // Salva o nome no estado
+          
+          // CORREÇÃO 2: O back-end envia 'name', não 'nome'
+          // Se não houver nome, mostra 'Utilizador'
+          setUserName(userData.name || 'Utilizador'); 
 
         } catch (error) {
-          console.error("Erro ao carregar dados do utilizador:", error);
-          setUserName("Utilizador"); // Define um fallback em caso de erro
+          console.error("Erro:", error);
+          setUserName("Utilizador");
         }
       };
 
       fetchUserData();
     }
-  }, [currentUser]); // Roda sempre que o 'currentUser' mudar
+  }, [currentUser]);
 
-
-  return (
-    <div className={styles.pageLayout}>
-      
-      {/* 3. Passe o 'userName' como prop para o Header */}
+ return (
+  <div className={styles.pageLayout}>
+    
+    {/* Header ocupa a área 'header' */}
+    <div style={{ gridArea: 'header' }}>
       <Header userName={userName} /> 
-      
-      <Sidebar onLogout={onLogout} />
-
-      <main className={styles.mainContent}>
-        {/* 4. Passe o 'userName' como prop para o Dashboard */}
-        <Dashboard userName={userName} />
-      </main>
-      
     </div>
-  );
+    
+    {/* Sidebar ocupa a área 'sidebar' */}
+    <div style={{ gridArea: 'sidebar' }}>
+       <Sidebar onLogout={onLogout} />
+    </div>
+
+    {/* Dashboard ocupa a área 'main' (definido no CSS .mainContent) */}
+    <main className={styles.mainContent}>
+      <Dashboard userName={userName} />
+    </main>
+    
+  </div>
+);
 }
 
 export default PagDash;

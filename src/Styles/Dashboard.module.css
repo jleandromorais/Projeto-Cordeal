@@ -17,7 +17,7 @@
 .welcomeCard { background-color: var(--primary-blue); border: 2px solid var(--border-blue); border-radius: var(--border-radius); padding: 30px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 .welcomeText h1 { font-size: 28px; margin-bottom: 10px; }
 .welcomeText p { color: var(--text-light); }
-.welcomeImage { width: 150px; height: 150px; background-image: url('https://i.imgur.com/As8V4pG.png'); background-size: contain; background-position: center; background-repeat: no-repeat; }
+.welcomeImage { width: 150px; height: 150px; ; background-size: contain; background-position: center; background-repeat: no-repeat; }
 .metricsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .metricCard { background-color: var(--primary-yellow); color: var(--white); border-radius: var(--border-radius); padding: 20px; text-align: center; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 150px; }
 .metricIcon { font-size: 32px; margin-bottom: 15px; }

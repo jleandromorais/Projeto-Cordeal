@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-// CORREÇÃO: Usando o caminho absoluto, como em PagLogin.tsx
-import styles from '/src/Styles/Cadastro.module.css';
+// CORREÇÃO: Usando caminho relativo para subir um nível e acessar a pasta Styles
+import styles from '../Styles/Cadastro.module.css';
 import { useNavigate } from 'react-router-dom';
 
 // Importações do Firebase
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-// CORREÇÃO: Usando o caminho absoluto
-import { auth, db } from '/src/firebaseConfig'; // Importe sua config
+// CORREÇÃO: Usando caminho relativo para acessar o firebaseConfig na pasta src
+import { auth, db } from '../firebaseConfig'; 
 
-// --- CORREÇÃO: Funções completas ---
+// --- Funções Auxiliares de Formatação ---
 const formatCPF = (value: string) => {
   return value
     .replace(/\D/g, '') // Remove tudo que não é dígito
@@ -26,7 +26,7 @@ const formatTelefone = (value: string) => {
     .replace(/(\d{5})(\d)/, '$1-$2') // Coloca hífen após o quinto dígito (para celular)
     .substring(0, 15); // Limita o tamanho
 };
-// --- FIM DA CORREÇÃO ---
+// --- FIM DAS FUNÇÕES AUXILIARES ---
 
 const PagCadastro: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -64,13 +64,13 @@ const PagCadastro: React.FC = () => {
     e.preventDefault();
     setError(null); // Limpa erros anteriores
 
-    // 1. Validar o tamanho da senha (antes de enviar ao Firebase)
+    // 1. Validar o tamanho da senha
     if (formData.senha.length < 6) {
       setError("A senha é muito fraca. Use pelo menos 6 caracteres.");
-      return; // Para a execução aqui
+      return;
     }
 
-    // 2. Validar senhas
+    // 2. Validar se as senhas coincidem
     if (formData.senha !== formData.confirmarSenha) {
       setError("As senhas não coincidem.");
       return;
@@ -85,17 +85,23 @@ const PagCadastro: React.FC = () => {
       );
       const user = userCredential.user;
 
-      // 4. Salvar dados adicionais no Firestore (o "Backend")
-      //    Removemos 'senha' e 'confirmarSenha' antes de salvar no DB
+      // 4. Salvar dados adicionais no Firestore
+      // Removemos 'senha' e 'confirmarSenha' antes de salvar no banco
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { senha, confirmarSenha, ...dadosParaSalvar } = formData;
       
+      // Usamos setDoc para definir o ID do documento igual ao UID do usuário
       await setDoc(doc(db, "users", user.uid), {
         ...dadosParaSalvar,
-        uid: user.uid // Salva o UID também no documento
+        uid: user.uid, // Salva o UID explicitamente no documento também
+        createdAt: new Date().toISOString() // Adiciona data de criação
       });
 
-      // 5. Redirecionar para o dashboard
-      navigate('/dashboard');
+      console.log("Usuário criado com sucesso:", user.uid);
+      
+      // 5. Redirecionar para a página inicial (Init) após o cadastro
+      // Você pode mudar para '/dashboard' se preferir ir direto para lá
+      navigate('/login');
 
     } catch (firebaseError: any) {
       console.error("Erro ao cadastrar:", firebaseError);
@@ -103,12 +109,10 @@ const PagCadastro: React.FC = () => {
       if (firebaseError.code === 'auth/email-already-in-use') {
         setError("Este e-mail já está em uso.");
       } else if (firebaseError.code === 'auth/weak-password') {
-          // Erro do Firebase (backup, caso nossa validação falhe)
         setError("A senha é muito fraca. Use pelo menos 6 caracteres.");
       } else if (firebaseError.code === 'permission-denied') {
           setError("Erro de permissão do banco de dados. Verifique suas regras do Firestore.");
-      }
-      else {
+      } else {
         setError("Ocorreu um erro ao tentar cadastrar. Tente novamente.");
       }
     }
@@ -119,8 +123,8 @@ const PagCadastro: React.FC = () => {
       <div className={styles.formCard}>
         <h1 className={styles.title}>Dados Cadastrais</h1>
 
-        {/* Exibir mensagem de erro */}
-        {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        {/* Exibir mensagem de erro se houver */}
+        {error && <p className={styles.errorMessage} style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
 
         <form onSubmit={handleSubmit}>
             {/* Grid que divide o formulário em colunas */}
@@ -140,6 +144,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.nome}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="Seu nome completo"
                   />
                 </div>
 
@@ -156,6 +161,7 @@ const PagCadastro: React.FC = () => {
                     onChange={handleChange}
                     className={styles.input}
                     placeholder="000.000.000-00"
+                    maxLength={14}
                   />
                 </div>
 
@@ -171,6 +177,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.instituicao}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="Sua instituição de ensino"
                   />
                 </div>
 
@@ -186,6 +193,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.curso}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="Seu curso"
                   />
                 </div>
               </div>
@@ -205,6 +213,7 @@ const PagCadastro: React.FC = () => {
                     onChange={handleChange}
                     className={styles.input}
                     placeholder="(00) 00000-0000"
+                    maxLength={15}
                   />
                 </div>
 
@@ -220,6 +229,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="seu@email.com"
                   />
                 </div>
 
@@ -235,6 +245,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.senha}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="Mínimo 6 caracteres"
                   />
                 </div>
 
@@ -250,6 +261,7 @@ const PagCadastro: React.FC = () => {
                     value={formData.confirmarSenha}
                     onChange={handleChange}
                     className={styles.input}
+                    placeholder="Repita sua senha"
                   />
                 </div>
               </div>
@@ -266,6 +278,11 @@ const PagCadastro: React.FC = () => {
           </div>
 
         </form>
+        
+        {/* Link para voltar ao Login caso já tenha conta */}
+        <p style={{textAlign: 'center', marginTop: '1rem'}}>
+           Já tem uma conta? <span style={{color: 'blue', cursor: 'pointer', textDecoration: 'underline'}} onClick={() => navigate('/')}>Faça Login</span>
+        </p>
       </div>
     </div>
   );
