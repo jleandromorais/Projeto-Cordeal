@@ -3,7 +3,6 @@ import styles from '../Styles/Dashboard.module.css';
 import type { JSX } from 'react';
 import { useAuth } from '../AuthContext';
 import pokemom from '../assets/img/pokemon.png';
-import ChatWidget from './ChatWidget';
 
 // --- Tipos ---
 interface EventData {
@@ -36,10 +35,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   
   // Estados de dados
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [metrics, setMetrics] = useState({ questoesRespondidas: 0, horasDedicadas: 0 });
   const [events, setEvents] = useState<Events>({}); 
-  const [notes, setNotes] = useState<string>(''); // [NOVO] Estado para as notas
+  const [notes, setNotes] = useState<string>(''); 
 
   // Estados de UI
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -58,26 +56,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
           const authHeader = { 'Authorization': `Bearer ${token}` };
           const API_URL = 'http://localhost:3001/api'; 
 
-          // [ATUALIZADO] Busca Métricas, Eventos e agora as NOTAS
           const [metricsRes, eventsRes, notesRes] = await Promise.all([
             fetch(`${API_URL}/dashboard/metrics`, { headers: authHeader }),
             fetch(`${API_URL}/calendar/events`, { headers: authHeader }),
-            fetch(`${API_URL}/dashboard/notes`, { headers: authHeader }) // [NOVO] Endpoint de notas
+            fetch(`${API_URL}/dashboard/notes`, { headers: authHeader })
           ]);
 
-          // Processa Métricas
           if (metricsRes.ok) {
             const metricsData = await metricsRes.json();
             setMetrics(metricsData); 
           }
 
-          // Processa Eventos
           if (eventsRes.ok) {
             const eventsData = await eventsRes.json();
             setEvents(eventsData); 
           }
 
-          // [NOVO] Processa Notas
           if (notesRes.ok) {
             const notesData = await notesRes.json();
             setNotes(notesData.content || ''); 
@@ -92,13 +86,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     }
   }, [currentUser]);
 
-  // [NOVO] Função para salvar as notas quando o utilizador sai do campo (onBlur)
+  // Função para salvar as notas
   const handleSaveNotes = async () => {
     if (!currentUser) return;
     try {
         const token = await currentUser.getIdToken();
         await fetch('http://localhost:3001/api/dashboard/notes', {
-            method: 'POST', // ou PUT, dependendo da sua API
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -200,16 +194,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     const today = new Date();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDayOfMonth = new Date(year, month, 1);
-    const dateOffset = (firstDayOfMonth.getDay() + 6) % 7; // Ajuste para segunda-feira ser o primeiro dia, se necessário
+    const dateOffset = (firstDayOfMonth.getDay() + 6) % 7; 
 
     const grid: JSX.Element[] = []; 
     
-    // Dias vazios do mês anterior
     for (let i = 0; i < dateOffset; i++) {
         grid.push(<div key={`empty-${i}`} className={`${styles.calendarDay} ${styles.otherMonth}`}></div>);
     }
 
-    // Dias do mês atual
     for (let day = 1; day <= daysInMonth; day++) {
         const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
@@ -235,7 +227,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     }
     return grid;
   }, [currentDate, events]);
-
 
   // --- JSX (Renderização) ---
   return (
@@ -277,7 +268,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
             <div className={styles.calendarWidget}>
                 <div className={styles.calendarNav}>
                     <button onClick={() => handleMonthChange(-1)}><i className="fas fa-chevron-left"></i></button>
-                    {/* Formatado para PT-BR para corresponder ao padrão visual */}
                     <h3>{currentDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}</h3>
                     <button onClick={() => handleMonthChange(1)}><i className="fas fa-chevron-right"></i></button>
                 </div>
@@ -291,30 +281,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
 
             <div className={styles.notesWidget}>
                 <div className={styles.notesHeader}><h3>Minhas Anotações</h3></div>
-                {/* [ATUALIZADO] Textarea funcional em vez de div vazia */}
                 <textarea 
                     className={styles.notesContent} 
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    onBlur={handleSaveNotes} // Salva ao perder o foco
+                    onBlur={handleSaveNotes}
                     placeholder="Escreva suas anotações aqui..."
                 />
             </div>
         </div>
       </div>
 
-{/* Botão Flutuante */}
-      <button 
-        className={styles.fab} 
-        onClick={() => setIsChatOpen(!isChatOpen)} // <--- Abre/Fecha
-      >
-        <i className={`fas ${isChatOpen ? 'fa-times' : 'fa-comment'}`}></i>
-      </button>
-      
-      {/* O Componente do Chat */}
-      {isChatOpen && (
-        <ChatWidget onClose={() => setIsChatOpen(false)} />
-      )}      
+      {/* --- O CHAT FOI REMOVIDO DAQUI --- */}
+
       {/* Tooltip */}
       {tooltipData.visible && (
         <div className={styles.eventTooltip} style={{ left: tooltipData.x, top: tooltipData.y }}>

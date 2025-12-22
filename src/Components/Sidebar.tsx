@@ -1,9 +1,12 @@
+// src/Components/Sidebar.tsx
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'; // Importe useNavigate e useLocation
 import styles from '../Styles/Sidebar.module.css';
 
 interface NavLink {
   text: string;
   icon: string;
+  path: string; // Adicionei o campo path
 }
 
 interface SidebarProps {
@@ -11,22 +14,25 @@ interface SidebarProps {
 }
 
 const navLinks: NavLink[] = [
-  { text: 'Início', icon: 'fas fa-home' },
-  { text: 'Questões', icon: 'fas fa-file-alt' },
-  { text: 'Feedback', icon: 'fas fa-exclamation-circle' },
-  { text: 'Reforço direcionado', icon: 'fas fa-lightbulb' },
+  { text: 'Início', icon: 'fas fa-home', path: '/dashboard' },
+  { text: 'Atividades', icon: 'fas fa-tasks', path: '/atividades' }, // Novo Link
+  { text: 'Questões', icon: 'fas fa-file-alt', path: '/questoes' }, // Exemplo
+  { text: 'Feedback', icon: 'fas fa-exclamation-circle', path: '/feedback' },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
-  const [activeLink, setActiveLink] = useState<string>('Início');
-  // Estado para controlar se está aberto ou fechado
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation(); // Para saber em qual página estamos
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <aside className={`${styles.sidebar} ${isOpen ? '' : styles.collapsed}`}>
       
       <div className={styles.sidebarHeader}>
-        {/* Botão dos 3 pontinhos (Toggle) */}
         <button 
             className={styles.toggleBtn} 
             onClick={() => setIsOpen(!isOpen)}
@@ -35,7 +41,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             <i className="fas fa-ellipsis-v"></i>
         </button>
         
-        {/* O Título só aparece se estiver aberto */}
         {isOpen && <h1>CORDEAL</h1>}
       </div>
 
@@ -45,12 +50,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             <li key={link.text}>
               <a
                 href="#"
-                className={`${styles.navLink} ${activeLink === link.text ? styles.active : ''}`}
+                // Verifica se a rota atual começa com o path do link para marcar como ativo
+                className={`${styles.navLink} ${location.pathname === link.path ? styles.active : ''}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  setActiveLink(link.text);
+                  handleNavigation(link.path);
                 }}
-                title={link.text} // Mostra o nome ao passar o mouse (útil quando fechado)
+                title={link.text}
               >
                 <i className={link.icon}></i>
                 {isOpen && <span>{link.text}</span>}

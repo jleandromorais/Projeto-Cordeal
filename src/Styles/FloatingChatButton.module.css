@@ -1,0 +1,36 @@
+/* src/Styles/FloatingChatButton.module.css */
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #419EBF; /* Azul do Cordeal */
+  color: white;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 1100; /* Garante que fica acima de tudo */
+  transition: transform 0.2s ease, background-color 0.2s;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  background-color: #358ca8;
+}
+
+/* Opcional: Ajuste para ecrãs pequenos se necessário */
+@media (max-width: 768px) {
+  .fab {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
