@@ -1,0 +1,181 @@
+/* src/Styles/PagQuestions.module.css */
+.pageLayout {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .mainContent {
+    grid-area: main;
+    padding: 2rem;
+    display: flex;
+    justify-content: center; /* Centraliza o card */
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+  
+  .questionCard {
+    background-color: #fff;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  /* Cabeçalho da Questão (Progresso e Título) */
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+  }
+  
+  .questionCount {
+    font-size: 0.9rem;
+    color: #6B7280;
+    font-weight: 600;
+    background-color: #F3F4F6;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+  }
+  
+  .moduleTitle {
+    font-size: 1.1rem;
+    color: #0A2540;
+    font-weight: 700;
+  }
+  
+  /* Texto da Pergunta */
+  .questionText {
+    font-size: 1.25rem;
+    color: #1F2937;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  
+  /* Lista de Alternativas */
+  .optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .optionButton {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: #fff;
+    border: 2px solid #E5E7EB;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    position: relative;
+  }
+  
+  .optionButton:hover {
+    background-color: #F9FAFB;
+    border-color: #419EBF;
+  }
+  
+  .optionButton.selected {
+    border-color: #419EBF;
+    background-color: #E8F4F8;
+    color: #0A2540;
+    font-weight: 600;
+    box-shadow: 0 0 0 4px rgba(65, 158, 191, 0.1);
+  }
+  
+  .optionLetter {
+    background-color: #E5E7EB;
+    color: #6B7280;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  
+  .optionButton.selected .optionLetter {
+    background-color: #419EBF;
+    color: #fff;
+  }
+  
+  /* Rodapé (Botões de Navegação) */
+  .cardFooter {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+  }
+  
+  .navBtn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .btnPrev {
+    background-color: #F3F4F6;
+    color: #4B5563;
+  }
+  
+  .btnPrev:hover {
+    background-color: #E5E7EB;
+  }
+  
+  .btnNext {
+    background-color: #0A2540;
+    color: #fff;
+  }
+  
+  .btnNext:hover {
+    background-color: #419EBF;
+  }
+  
+  .btnFinish {
+    background-color: #00FF00;
+    color: #fff;
+  }
+  
+  .btnFinish:hover {
+    background-color: #00cc00;
+  }
+
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .pageLayout {
+      grid-template-areas: "header" "main";
+      grid-template-columns: 1fr;
+    }
+    .mainContent {
+        padding: 1rem;
+    }
+    .questionCard {
+        padding: 1.5rem;
+    }
+  }

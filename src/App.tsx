@@ -5,17 +5,20 @@ import { auth } from './firebaseConfig';
 
 // Importando as Páginas
 import PagInit from './pages/PagInit.tsx';
-import PagDash from './pages/PagDash.tsx';
 import PagCadastro from './pages/PagCadastro.tsx';
 import PagLogin from './pages/PagLogin.tsx'; 
-import PagActivities from './pages/PagActivities.tsx'; // 1. Importe a nova página
+import PagDash from './pages/PagDash.tsx';
+import PagActivities from './pages/PagActivities.tsx'; // Nova página de Módulos
+import PagQuestions from './pages/PagQuestions.tsx'; // Nova página de Questões
 
+// Importando Layouts e Rotas Protegidas
 import MainLayout from './pages/MainLayout.tsx';
 import ProtectedRoute from './ProtectedRoute.tsx';
 
 function App() {
   const navigate = useNavigate();
 
+  // Função de logout compartilhada entre as páginas protegidas
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -28,24 +31,38 @@ function App() {
 
   return (
     <Routes>
+      {/* --- ROTAS PÚBLICAS --- */}
+      
+      {/* Layout Principal (Header Inicial + Outlet) */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<PagInit />} /> 
         <Route path="cadastro" element={<PagCadastro />} />
       </Route>
 
+      {/* Login (Layout próprio) */}
       <Route path="/login" element={<PagLogin />} />
 
-      {/* Rotas Protegidas */}
+      {/* --- ROTAS PROTEGIDAS (Requer Login) --- */}
       <Route element={<ProtectedRoute />}>
+        
+        {/* Dashboard Principal */}
         <Route 
           path="/dashboard" 
           element={<PagDash onLogout={handleLogout} />} 
         />
-        {/* 2. Adicione a nova rota aqui */}
+
+        {/* Tela de Atividades (Trilha de Aprendizado) */}
         <Route 
           path="/atividades" 
           element={<PagActivities onLogout={handleLogout} />} 
         />
+
+        {/* Tela de Questões (Dinâmica por ID do módulo) */}
+        <Route 
+          path="/questoes/:moduleId" 
+          element={<PagQuestions />} 
+        />
+
       </Route>
       
     </Routes>
