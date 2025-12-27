@@ -1,29 +1,33 @@
-// src/Components/Sidebar.tsx
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Importe useNavigate e useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from '../Styles/Sidebar.module.css';
 
 interface NavLink {
   text: string;
   icon: string;
-  path: string; // Adicionei o campo path
+  path: string;
 }
 
 interface SidebarProps {
   onLogout: () => void;
 }
 
+// --- LISTA DE LINKS ATUALIZADA ---
 const navLinks: NavLink[] = [
   { text: 'Início', icon: 'fas fa-home', path: '/dashboard' },
-  { text: 'Atividades', icon: 'fas fa-tasks', path: '/atividades' }, // Novo Link
-  { text: 'Questões', icon: 'fas fa-file-alt', path: '/questoes' }, // Exemplo
+  { text: 'Atividades', icon: 'fas fa-tasks', path: '/atividades' },
+  
+  // NOVO ITEM ADICIONADO AQUI:
+  { text: 'Minhas estatísticas', icon: 'fas fa-chart-line', path: '/estatisticas' },
+  
+  { text: 'Questões', icon: 'fas fa-file-alt', path: '/questoes' },
   { text: 'Feedback', icon: 'fas fa-exclamation-circle', path: '/feedback' },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation(); // Para saber em qual página estamos
+  const location = useLocation();
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -38,10 +42,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             onClick={() => setIsOpen(!isOpen)}
             title={isOpen ? "Fechar menu" : "Abrir menu"}
         >
-            <i className="fas fa-ellipsis-v"></i>
+            {/* Ícone muda dinamicamente: Seta ou Hamburguer */}
+            <i className={isOpen ? "fas fa-chevron-left" : "fas fa-bars"}></i>
         </button>
         
-        {isOpen && <h1>CORDEAL</h1>}
+        {/* Logo CORDEAL */}
+        {isOpen && (
+          <h1>
+            <span className={styles.logoPart1}>COR</span>
+            <span className={styles.logoPart2}>DEAL</span>
+          </h1>
+        )}
       </div>
 
       <nav className={styles.sidebarNav}>
@@ -50,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             <li key={link.text}>
               <a
                 href="#"
-                // Verifica se a rota atual começa com o path do link para marcar como ativo
+                // Verifica se a rota atual é exatamente a do link para marcar como ativo
                 className={`${styles.navLink} ${location.pathname === link.path ? styles.active : ''}`}
                 onClick={(e) => {
                   e.preventDefault();

@@ -10,6 +10,7 @@ import PagLogin from './pages/PagLogin.tsx';
 import PagDash from './pages/PagDash.tsx';
 import PagActivities from './pages/PagActivities.tsx'; // Nova página de Módulos
 import PagQuestions from './pages/PagQuestions.tsx'; // Nova página de Questões
+import PagMinhasEstatisticas from './pages/PagMinhasEstatisticas.tsx'; 
 
 // Importando Layouts e Rotas Protegidas
 import MainLayout from './pages/MainLayout.tsx';
@@ -61,6 +62,12 @@ function App() {
         <Route 
           path="/questoes/:moduleId" 
           element={<PagQuestions />} 
+        />
+
+        {/* 2. ADICIONE A ROTA AQUI */}
+        <Route 
+          path="/estatisticas" 
+          element={<PagMinhasEstatisticas />} 
         />
 
       </Route>
