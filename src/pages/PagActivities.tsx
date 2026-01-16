@@ -1,4 +1,3 @@
-// src/pages/PagActivities.tsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +21,6 @@ interface Module {
   status: "completed" | "in-progress" | "locked";
 }
 
-// Dados das questões (Lista visual para a Avaliação)
 const questionsData: Record<number, string[]> = {
   1: ["Questão 1", "Questão 2", "Questão 3", "Questão 4", "Questão 5"],
   2: ["Questão 1", "Questão 2", "Questão 3", "Questão 4", "Questão 5"],
@@ -35,67 +33,93 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
-  const [userName, setUserName] = useState<string>("Utilizador");
+  // CORREÇÃO: Começa com "..." para indicar carregamento
+  const [userName, setUserName] = useState<string>("...");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [expandedModuleId, setExpandedModuleId] = useState<number | null>(null);
 
-  // Estados para as estatísticas
   const [totalScore, setTotalScore] = useState(0);      
   const [accuracyPercentage, setAccuracyPercentage] = useState(0); 
+  const [completedModules, setCompletedModules] = useState<number[]>([]);
 
   useEffect(() => {
-    if (currentUser) {
-       setUserName("Utilizador");
-    }
+    const fetchUserDataAndProgress = async () => {
+        if (!currentUser) return;
 
-    const savedScores = JSON.parse(localStorage.getItem('cordeal_scores') || '{}');
-    let correct = 0;
-    let answeredTotal = 0;
+        try {
+            const token = await currentUser.getIdToken();
+            const headers = { 'Authorization': `Bearer ${token}` };
+            const API_URL = 'http://localhost:3001/api'; // Ajuste se a porta for diferente
 
-    Object.keys(savedScores).forEach(moduleId => {
-        const data = savedScores[moduleId];
-        if (data) {
-            correct += (data.correct || 0);
-            answeredTotal += (data.total || 0);
+            // 1. BUSCAR O NOME (Perfil)
+            const userRes = await fetch(`${API_URL}/user/profile`, { headers });
+            if (userRes.ok) {
+                const userData = await userRes.json();
+                // Prioriza o nome vindo do backend
+                setUserName(userData.name || 'Utilizador');
+            }
+
+            // 2. BUSCAR O PROGRESSO (Métricas)
+            const metricsRes = await fetch(`${API_URL}/dashboard/metrics`, { headers });
+            if (metricsRes.ok) {
+                const data = await metricsRes.json();
+                
+                const stats = data.stats || { questoesCertas: 0, questoesRespondidas: 0 };
+                setTotalScore(stats.questoesCertas);
+                
+                const percent = stats.questoesRespondidas > 0 
+                    ? Math.round((stats.questoesCertas / stats.questoesRespondidas) * 100)
+                    : 0;
+                setAccuracyPercentage(percent);
+
+                const doneIds: number[] = [];
+                if (data.modules) {
+                    Object.keys(data.modules).forEach(key => {
+                        if (data.modules[key].completed) {
+                            doneIds.push(Number(key));
+                        }
+                    });
+                }
+                setCompletedModules(doneIds);
+            }
+
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+            setUserName("Utilizador"); // Fallback em caso de erro
         }
-    });
+    };
 
-    setTotalScore(correct);
-
-    const calculatedPercentage = answeredTotal > 0 
-        ? Math.round((correct / answeredTotal) * 100) 
-        : 0;
-
-    setAccuracyPercentage(calculatedPercentage);
+    fetchUserDataAndProgress();
   }, [currentUser]); 
 
+  // Lógica dos módulos baseada no progresso vindo do banco
   const modules: Module[] = [
     { 
       id: 1, 
       title: "Módulo 1", 
       topic: "Fator Comum em Evidência", 
       questionsCount: "5 Questões", 
-      status: "completed" 
+      status: completedModules.includes(1) ? "completed" : "in-progress" 
     },
     { 
       id: 2, 
       title: "Módulo 2", 
       topic: "Diferença de Quadrados", 
       questionsCount: "5 Questões", 
-      status: "in-progress" 
+      status: completedModules.includes(2) ? "completed" : (completedModules.includes(1) ? "in-progress" : "locked")
     },
     { 
       id: 3, 
       title: "Módulo 3", 
       topic: "Trinômio do 2º Grau", 
       questionsCount: "5 Questões", 
-      status: "in-progress" 
+      status: completedModules.includes(3) ? "completed" : (completedModules.includes(2) ? "in-progress" : "locked")
     },
     { id: 4, title: "Módulo 4", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
     { id: 5, title: "Módulo 5", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
   ];
 
-  const completedCount = modules.filter(m => m.status === 'completed').length;
+  const completedCount = completedModules.length;
   
   const steps = [
     { id: 1, requiredCompleted: 0 },
@@ -110,7 +134,6 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
     setExpandedModuleId(expandedModuleId === moduleId ? null : moduleId);
   };
 
-  // Navega para a página de questões (o padrão lá já é o Treino ou a aba que você definiu)
   const handleNavigate = (moduleId: number) => {
     navigate(`/questoes/${moduleId}`);
   };
@@ -122,7 +145,7 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   
       <main className={styles.mainContent}>
         
-        {/* STEPPER */}
+        {/* STEPPER (Igual ao anterior) */}
         <section className={styles.stepperContainer}>
             <div className={styles.stepperTitle}>TRILHA</div>
             <div className={styles.stepperSteps}>
@@ -137,12 +160,12 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                         lineFillWidth = '100%';
                     } else if (completedCount >= step.requiredCompleted) {
                         stepClass = styles.stepCurrent;
-                        const currentReq = step.requiredCompleted;
                         const totalNeeded = nextStepReq - currentReq;
                         const progress = completedCount - currentReq;
                         const percent = totalNeeded > 0 ? (progress / totalNeeded) * 100 : 0;
                         lineFillWidth = `${Math.min(percent, 100)}%`;
                     }
+                    var currentReq = step.requiredCompleted; // (Auxiliar para o calculo acima funcionar bem no copy paste)
 
                     return (
                         <React.Fragment key={step.id}>
@@ -161,18 +184,14 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         </section>
 
         <div className={styles.contentRow}>
-            {/* LISTA DE MÓDULOS */}
             <div className={styles.contentColumn}>
                 <h2 style={{ color: '#0A2540', marginBottom: '1rem' }}>Módulos Disponíveis</h2>
-                
                 {modules.map((module) => {
                     const isExpanded = expandedModuleId === module.id;
                     const questions = questionsData[module.id] || [];
 
                     return (
                         <div key={module.id} className={`${styles.moduleCardWrapper} ${module.status === 'locked' ? styles.locked : ''} ${isExpanded ? styles.expanded : ''}`}>
-                            
-                            {/* Cabeçalho do Card */}
                             <div className={styles.moduleHeader} onClick={() => handleModuleClick(module.id, module.status)}>
                                 <div className={styles.moduleIcon} style={{
                                     backgroundColor: module.status === 'completed' ? '#00FF00' : (module.status === 'in-progress' ? '#F4A261' : '#FFF'),
@@ -189,30 +208,15 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                                     {module.status === 'locked' ? '🔒' : (module.status === 'completed' ? '✓' : (isExpanded ? '▲' : '▼'))}
                                 </div>
                             </div>
-
-                            {/* Conteúdo Expandido */}
                             {isExpanded && (
                                 <div className={styles.questionsList}>
-                                    
-                                    {/* --- BARRA MODO TREINO (ÚNICA) --- */}
-                                    <div 
-                                        className={styles.questionItem} 
-                                        onClick={() => handleNavigate(module.id)}
-                                        style={{
-                                            backgroundColor: '#007bff', 
-                                            color: '#fff', 
-                                            justifyContent: 'center', 
-                                            marginBottom: '10px',
-                                            border: 'none'
-                                        }}
-                                    >
+                                    <div className={styles.questionItem} onClick={() => handleNavigate(module.id)}
+                                        style={{ backgroundColor: '#007bff', color: '#fff', justifyContent: 'center', marginBottom: '10px', border: 'none' }}>
                                         <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
                                             <i className="fas fa-dumbbell" style={{marginRight: '8px'}}></i>
                                             MODO TREINO
                                         </span>
                                     </div>
-
-                                    {/* Lista de Questões (Avaliação) */}
                                     {questions.map((q, idx) => (
                                         <div key={idx} className={styles.questionItem} onClick={() => handleNavigate(module.id)}>
                                             <span style={{ fontWeight: 500 }}>{q}</span>
@@ -221,13 +225,11 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                                     ))}
                                 </div>
                             )}
-
                         </div>
                     );
                 })}
             </div>
 
-            {/* CARD DE ESTATÍSTICAS */}
             <div className={styles.statsColumn}>
                 <div className={styles.statsCard}>
                     <h3 className={styles.statsTitle}>Sua Performance</h3>
@@ -245,7 +247,6 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                     <p className={styles.progressText}>{accuracyPercentage}% de precisão</p>
                 </div>
             </div>
-
         </div>
       </main>
 

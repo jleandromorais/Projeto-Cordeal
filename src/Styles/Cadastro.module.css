@@ -1,117 +1,154 @@
-/* Arquivo: src/Styles/PagCadastro.module.css
-  Este arquivo contém os estilos para a página de cadastro.
-*/
-
-/* Container que centraliza o card na tela */
 .pageContainer {
-  min-height: 100vh;
-  background-color: #ffffff;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 24px;
-  font-family: 'Poppins', sans-serif;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* O card branco que segura o formulário */
 .formCard {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 900px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 32px;
 }
 
-/* Título "Dados Cadastrais" */
 .title {
-  color: #033B5B;
-  font-size: 1.5rem; /* 24px */
+  text-align: center;
+  color: #0A2540;
+  margin-bottom: 2rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 24px;
 }
 
-/* O grid que organiza o formulário */
+/* Grid de 2 colunas */
 .formGrid {
   display: grid;
-  grid-template-columns: 1fr; /* Uma coluna por padrão (mobile) */
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; /* Espaço entre colunas */
 }
 
-/* As colunas do formulário */
-.formColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 24px; /* Espaçamento entre os campos */
-}
-
-/* Grupo de (label + input) */
-.formGroup {
-  width: 100%;
-}
-
-/* Estilo da Label (NOME, CPF, etc.) */
-.label {
-  display: block;
-  color: #333333;
-  font-size: 0.75rem; /* 12px */
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-/* O asterisco "*" vermelho */
-.required {
-  color: #FF0000;
-}
-
-/* O campo de input */
-.input {
-  width: 100%;
-  height: 44px;
-  border: 1px solid #CCCCCC;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #033B5B;
-  box-shadow: 0 0 0 2px rgba(3, 59, 91, 0.2);
-}
-
-/* Container do botão para centralização */
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
-
-/* Botão de "Cadastrar" */
-.submitButton {
-  background-color: #033B5B;
-  color: #FFFFFF;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.submitButton:hover {
-  background-color: #022a42;
-}
-
-/* Media query para telas maiores (desktop) */
-@media (min-width: 768px) {
+/* Em telemóveis, fica uma coluna só */
+@media (max-width: 768px) {
   .formGrid {
-    grid-template-columns: 1fr 1fr; /* Duas colunas em telas maiores */
+    grid-template-columns: 1fr;
   }
 }
 
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4B5563;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.required {
+  color: #EF4444;
+  margin-left: 2px;
+}
+
+/* ESTILO UNIFICADO PARA INPUT E SELECT */
+.input {
+  width: 100%;
+  height: 48px; /* Altura fixa para alinhar tudo */
+  padding: 0 16px; /* Padding lateral */
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1F2937;
+  background-color: #F9FAFB;
+  transition: all 0.2s ease;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+  display: flex;
+  align-items: center;
+}
+
+/* Foco (quando clicas) */
+.input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* --- TRUQUE PARA O SELECT FICAR BONITO --- */
+select.input {
+  appearance: none;        /* Remove a seta padrão feia do navegador */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  /* Adiciona uma seta SVG personalizada no background */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em;
+  padding-right: 2.5rem; /* Espaço para o texto não ficar em cima da seta */
+  cursor: pointer;
+}
+
+/* Deixa o placeholder (opção vazia) com cor cinza */
+select.input:invalid {
+  color: #9CA3AF;
+}
+
+/* Garante que as opções dentro do select sejam pretas */
+select.input option {
+  color: #1F2937;
+}
+
+.buttonContainer {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  background-color: #0A2540;
+  color: white;
+  width: 100%;
+  max-width: 300px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  box-shadow: 0 4px 6px rgba(10, 37, 64, 0.2);
+}
+
+.submitButton:hover {
+  background-color: #163A5F;
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(1px);
+}
+
+.errorMessage {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #FECACA;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
