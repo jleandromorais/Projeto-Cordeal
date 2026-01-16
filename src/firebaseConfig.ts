@@ -18,12 +18,13 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+// ... (teus imports)
+
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// --- ISSO ESTAVA FALTANDO ---
-// Exporte os serviços que seus outros arquivos precisam
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// ADICIONA 'export' AQUI:
+export const analytics = getAnalytics(app); 
 
-export default app;
+export { auth, db };

@@ -1,27 +1,16 @@
-// src/Components/FloatingChatButton.tsx
-import React, { useState } from 'react';
-import ChatWidget from './ChatWidget';
+import React from 'react';
 import styles from '../Styles/FloatingChatButton.module.css';
 
-const FloatingChatButton: React.FC = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
+// Interface para definir que o botão espera receber uma função onClick
+interface FloatingChatButtonProps {
+  onClick: () => void;
+}
 
+const FloatingChatButton: React.FC<FloatingChatButtonProps> = ({ onClick }) => {
   return (
-    <>
-      {/* Botão Flutuante (FAB) */}
-      <button 
-        className={styles.fab} 
-        onClick={() => setIsChatOpen(!isChatOpen)}
-        aria-label="Abrir Chat com IA"
-      >
-        <i className={`fas ${isChatOpen ? 'fa-times' : 'fa-comment'}`}></i>
-      </button>
-
-      {/* Renderização Condicional do Widget */}
-      {isChatOpen && (
-        <ChatWidget onClose={() => setIsChatOpen(false)} />
-      )}
-    </>
+    <button className={styles.floatingButton} onClick={onClick}>
+      💬
+    </button>
   );
 };
 

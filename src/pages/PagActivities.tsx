@@ -33,7 +33,6 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
-  // CORREÇÃO: Começa com "..." para indicar carregamento
   const [userName, setUserName] = useState<string>("...");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [expandedModuleId, setExpandedModuleId] = useState<number | null>(null);
@@ -42,6 +41,9 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   const [accuracyPercentage, setAccuracyPercentage] = useState(0); 
   const [completedModules, setCompletedModules] = useState<number[]>([]);
 
+  // Definição da URL da API (Local ou Produção)
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
   useEffect(() => {
     const fetchUserDataAndProgress = async () => {
         if (!currentUser) return;
@@ -49,13 +51,11 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         try {
             const token = await currentUser.getIdToken();
             const headers = { 'Authorization': `Bearer ${token}` };
-            const API_URL = 'http://localhost:3001/api'; // Ajuste se a porta for diferente
 
             // 1. BUSCAR O NOME (Perfil)
             const userRes = await fetch(`${API_URL}/user/profile`, { headers });
             if (userRes.ok) {
                 const userData = await userRes.json();
-                // Prioriza o nome vindo do backend
                 setUserName(userData.name || 'Utilizador');
             }
 
@@ -85,12 +85,12 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
 
         } catch (error) {
             console.error("Erro ao carregar dados:", error);
-            setUserName("Utilizador"); // Fallback em caso de erro
+            setUserName("Utilizador");
         }
     };
 
     fetchUserDataAndProgress();
-  }, [currentUser]); 
+  }, [currentUser, API_URL]); 
 
   // Lógica dos módulos baseada no progresso vindo do banco
   const modules: Module[] = [
@@ -145,27 +145,29 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   
       <main className={styles.mainContent}>
         
-        {/* STEPPER (Igual ao anterior) */}
+        {/* STEPPER CORRIGIDO */}
         <section className={styles.stepperContainer}>
             <div className={styles.stepperTitle}>TRILHA</div>
             <div className={styles.stepperSteps}>
                 {steps.map((step, index) => {
+                    // --- CORREÇÃO DE TYPESCRIPT AQUI ---
+                    const currentReq = step.requiredCompleted;
+                    const nextStepReq = steps[index + 1]?.requiredCompleted || 99;
                     const isLast = index === steps.length - 1;
+                    
                     let stepClass = styles.stepInactive;
                     let lineFillWidth = '0%';
-                    const nextStepReq = steps[index + 1]?.requiredCompleted || 99;
                     
                     if (completedCount >= nextStepReq) {
                         stepClass = styles.stepCompleted;
                         lineFillWidth = '100%';
-                    } else if (completedCount >= step.requiredCompleted) {
+                    } else if (completedCount >= currentReq) {
                         stepClass = styles.stepCurrent;
                         const totalNeeded = nextStepReq - currentReq;
                         const progress = completedCount - currentReq;
                         const percent = totalNeeded > 0 ? (progress / totalNeeded) * 100 : 0;
                         lineFillWidth = `${Math.min(percent, 100)}%`;
                     }
-                    var currentReq = step.requiredCompleted; // (Auxiliar para o calculo acima funcionar bem no copy paste)
 
                     return (
                         <React.Fragment key={step.id}>
@@ -253,6 +255,7 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
       <div className={styles.chatContainer}>
          {isChatOpen && <ChatWidget onClose={() => setIsChatOpen(false)} />}
       </div>
+      {/* Botão flutuante com a Prop onClick corrigida */}
       <FloatingChatButton onClick={toggleChat} />
     </div>
   );
