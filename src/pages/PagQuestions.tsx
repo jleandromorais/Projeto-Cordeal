@@ -8,7 +8,6 @@ import Header from '../Components/HeaderInit';
 import styles from '../Styles/PagQuestions.module.css';
 
 // --- Interfaces ---
-
 interface Question {
   id: number;
   text: string;
@@ -18,12 +17,12 @@ interface Question {
 
 interface ModuleData {
   topicTitle: string;
-  questions: Question[]; // Apenas as questões de avaliação
+  questions: Question[]; 
 }
 
-// --- Dados Mockados (Apenas as questões contextualizadas do Quiz) ---
+// --- Dados Mockados (Mantém os teus dados de questões aqui) ---
 const modulesData: Record<string, ModuleData> = {
-  "1": { // Módulo 1
+  "1": { 
     topicTitle: "Fatoração por Fator Comum",
     questions: [
       { id: 101, text: "1. Um algoritmo executa operações proporcionais a x. O custo total é dado por: (2x² + 2xy) / 2x. Simplifique.", options: ["x - y", "x + y", "2x + y", "x + 2y"], correctAnswer: 1 },
@@ -33,7 +32,7 @@ const modulesData: Record<string, ModuleData> = {
       { id: 105, text: "5. O consumo de memória de um sistema é modelado por: (6p² + 6pq - 6pr) / 6p.", options: ["p - q - r", "p + q - r", "p + q + r", "6p + q - r"], correctAnswer: 1 }
     ]
   },
-  "2": { // Módulo 2
+  "2": { 
     topicTitle: "Diferença de Quadrados",
     questions: [
       { id: 201, text: "1. O tempo de execução de dois processos é dado por: (4t² - 36s²) / (2t - 6s).", options: ["2t + 6s", "2t - 6s", "4t + 6s", "2t + 12s"], correctAnswer: 0 },
@@ -43,7 +42,7 @@ const modulesData: Record<string, ModuleData> = {
       { id: 205, text: "5. A diferença de combinações de senhas entre dois sistemas é: (121a² - 9b²) / (11a - 3b).", options: ["11a - 3b", "121a + 3b", "11a + 9b", "11a + 3b"], correctAnswer: 3 }
     ]
   },
-  "3": { // Módulo 3
+  "3": { 
     topicTitle: "Trinômio do 2º Grau",
     questions: [
       { id: 301, text: "1. O tempo de processamento de uma query é modelado por: (x² + 7x + 12) / (x + 3).", options: ["x - 4", "x + 4", "x + 3", "x - 3"], correctAnswer: 1 },
@@ -67,13 +66,50 @@ const PagQuestions: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  
+  // Estados para o relatório final
   const [showReport, setShowReport] = useState(false);
+  const [finalScore, setFinalScore] = useState({ correct: 0, total: 0, percentage: 0, isPass: false });
 
   useEffect(() => {
-    if (currentUser) setUserName("Utilizador");
+    if (currentUser) {
+         setUserName(currentUser.displayName || "Utilizador");
+    }
   }, [currentUser]);
 
   const moduleData = moduleId && modulesData[moduleId] ? modulesData[moduleId] : null;
+
+  // --- FUNÇÃO PARA SALVAR NO BANCO DE DADOS ---
+  const saveToDatabase = async (correct: number, total: number, percent: number) => {
+    if (!currentUser || !moduleId) return;
+
+    try {
+        const token = await currentUser.getIdToken();
+        
+        // ROTA ajustada para a porta 3001 e /api/user/save-quiz
+        const response = await fetch('http://localhost:3001/api/user/save-quiz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                moduleId: moduleId,
+                correctCount: correct,
+                totalQuestions: total,
+                score: percent
+            })
+        });
+
+        if (response.ok) {
+            console.log("✅ Progresso salvo com sucesso!");
+        } else {
+            console.error("❌ Erro ao salvar progresso.");
+        }
+    } catch (error) {
+        console.error("❌ Erro de conexão:", error);
+    }
+  };
 
   if (!moduleData) {
     return (
@@ -88,22 +124,8 @@ const PagQuestions: React.FC = () => {
     );
   }
 
-  // --- Renderização do Relatório Final (Aparece ao fim do Quiz) ---
+  // --- Renderização do Relatório Final ---
   if (showReport) {
-    const questions = moduleData.questions;
-    const totalQuestions = questions.length;
-    let correctCount = 0;
-    
-    const reportItems = questions.map(q => {
-        const userAnswerIndex = answers[q.id];
-        const isCorrect = userAnswerIndex === q.correctAnswer;
-        if (isCorrect) correctCount++;
-        return { ...q, userAnswerIndex, isCorrect };
-    });
-
-    const percentage = Math.round((correctCount / totalQuestions) * 100);
-    const isPass = percentage >= 70;
-
     return (
         <div className={styles.pageLayout}>
             <div style={{ gridArea: 'header' }}><Header userName={userName} /></div>
@@ -111,29 +133,32 @@ const PagQuestions: React.FC = () => {
             <main className={styles.mainContent}>
                 <div className={styles.questionCard} style={{ maxWidth: '800px' }}>
                     <h2 style={{ color: '#333', marginBottom: '10px' }}>Relatório de Desempenho</h2>
-                    <div style={{ padding: '20px', background: isPass ? '#d4edda' : '#f8d7da', color: isPass ? '#155724' : '#721c24', borderRadius: '8px', marginBottom: '20px', textAlign: 'center' }}>
-                        <h1 style={{ fontSize: '3rem', margin: 0 }}>{percentage}%</h1>
-                        <p>{isPass ? "Excelente! Módulo concluído." : "Você pode melhorar. Tente novamente."}</p>
-                        <p>Acertos: {correctCount} de {totalQuestions}</p>
+                    <div style={{ padding: '20px', background: finalScore.isPass ? '#d4edda' : '#f8d7da', color: finalScore.isPass ? '#155724' : '#721c24', borderRadius: '8px', marginBottom: '20px', textAlign: 'center' }}>
+                        <h1 style={{ fontSize: '3rem', margin: 0 }}>{finalScore.percentage}%</h1>
+                        <p>{finalScore.isPass ? "Excelente! Módulo concluído." : "Você pode melhorar. Tente novamente."}</p>
+                        <p>Acertos: {finalScore.correct} de {finalScore.total}</p>
                     </div>
 
-                    {/* Detalhamento das Respostas */}
                     <div style={{ textAlign: 'left', marginTop: '20px' }}>
-                        {reportItems.map((item, idx) => (
-                            <div key={item.id} style={{ borderBottom: '1px solid #eee', padding: '15px 0' }}>
-                                <p><strong>Questão {idx + 1}:</strong> {item.text}</p>
-                                {item.isCorrect ? (
-                                    <span style={{ color: 'green', fontWeight: 'bold' }}>
-                                        <i className="fas fa-check"></i> Correto: {item.options[item.correctAnswer]}
-                                    </span>
-                                ) : (
-                                    <div style={{ color: 'red' }}>
-                                        <div>Sua resposta: <span style={{ textDecoration: 'line-through' }}>{item.options[item.userAnswerIndex] || "Nenhuma"}</span></div>
-                                        <div style={{ color: 'green', marginTop: '5px' }}>Correto: <strong>{item.options[item.correctAnswer]}</strong></div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                        {moduleData.questions.map((item, idx) => {
+                            const userAnswerIndex = answers[item.id];
+                            const isCorrect = userAnswerIndex === item.correctAnswer;
+                            return (
+                                <div key={item.id} style={{ borderBottom: '1px solid #eee', padding: '15px 0' }}>
+                                    <p><strong>Questão {idx + 1}:</strong> {item.text}</p>
+                                    {isCorrect ? (
+                                        <span style={{ color: 'green', fontWeight: 'bold' }}>
+                                            <i className="fas fa-check"></i> Correto: {item.options[item.correctAnswer]}
+                                        </span>
+                                    ) : (
+                                        <div style={{ color: 'red' }}>
+                                            <div>Sua resposta: <span style={{ textDecoration: 'line-through' }}>{item.options[userAnswerIndex] || "Nenhuma"}</span></div>
+                                            <div style={{ color: 'green', marginTop: '5px' }}>Correto: <strong>{item.options[item.correctAnswer]}</strong></div>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
 
                     <div className={styles.cardFooter}>
@@ -176,8 +201,35 @@ const PagQuestions: React.FC = () => {
     }
   };
 
+  // --- Função HandleFinish com a lógica de salvar ---
   const handleFinish = () => {
+    // 1. Calcular Nota
+    let correctCount = 0;
+    const questions = moduleData.questions;
+    const totalQuestions = questions.length;
+
+    questions.forEach(q => {
+        if (answers[q.id] === q.correctAnswer) {
+            correctCount++;
+        }
+    });
+
+    const percentage = Math.round((correctCount / totalQuestions) * 100);
+    const isPass = percentage >= 70;
+
+    // 2. Guardar estado para exibir relatório
+    setFinalScore({
+        correct: correctCount,
+        total: totalQuestions,
+        percentage: percentage,
+        isPass: isPass
+    });
+
+    // 3. Mostrar Relatório
     setShowReport(true);
+
+    // 4. Salvar no Banco de Dados
+    saveToDatabase(correctCount, totalQuestions, percentage);
   };
 
   return (
