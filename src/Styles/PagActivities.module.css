@@ -1,19 +1,24 @@
-/* src/Styles/PagActivities.module.css */
-
 .pageLayout {
   display: grid;
   grid-template-areas:
     "header header"
-    "sidebar main";
-  grid-template-columns: 250px 1fr;
-  grid-template-rows: auto 1fr;
+    "main main";
+  /* Importante: A primeira coluna simula o espaço da sidebar fixa */
+  grid-template-columns: 280px 1fr;
   min-height: 100vh;
   background-color: #f5f5f5;
   position: relative;
 }
 
+/* O Header deve cobrir tudo ou apenas a parte direita? 
+   Depende do seu HeaderInit. Se ele não for fixo, deixe assim: */
+.pageLayout > div:first-child {
+    grid-column: 2 / -1; /* O cabeçalho começa depois da sidebar */
+}
+
 .mainContent {
-  grid-area: main;
+  /* O conteúdo principal começa depois da sidebar */
+  grid-column: 2 / -1; 
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -21,6 +26,18 @@
   overflow-y: auto;
 }
 
+/* --- Container para o Chat Widget Flutuante --- */
+.chatOverlay {
+  position: fixed;
+  bottom: 100px; /* Acima do botão redondo */
+  right: 30px;
+  z-index: 9999; /* Fica acima de tudo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Restante do layout interno */
 .contentRow {
   display: flex;
   gap: 2rem;
@@ -39,7 +56,7 @@
   flex-shrink: 0;
 }
 
-/* --- STEPPER (BARRA DE PROGRESSO) --- */
+/* STEPPER */
 .stepperContainer {
   background-color: #fff;
   padding: 1.5rem 2rem;
@@ -81,26 +98,9 @@
   z-index: 2;
 }
 
-/* Estado: Completado (Verde) */
-.stepCompleted {
-  background-color: #00FF00;
-  color: #fff;
-  box-shadow: 0 2px 4px rgba(0,255,0,0.3);
-}
-
-/* Estado: Atual/Em andamento (Laranja ou Azul) */
-.stepCurrent {
-  background-color: #419EBF;
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 0 0 4px rgba(65, 158, 191, 0.2);
-}
-
-/* Estado: Inativo (Cinza) */
-.stepInactive {
-  background-color: #E5E7EB;
-  color: #9CA3AF;
-}
+.stepCompleted { background-color: #00FF00; color: #fff; box-shadow: 0 2px 4px rgba(0,255,0,0.3); }
+.stepCurrent { background-color: #419EBF; color: #fff; transform: scale(1.1); box-shadow: 0 0 0 4px rgba(65, 158, 191, 0.2); }
+.stepInactive { background-color: #E5E7EB; color: #9CA3AF; }
 
 .stepLine {
   flex: 1;
@@ -112,18 +112,13 @@
 
 .stepLineFill {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  top: 0; left: 0; height: 100%;
   background: linear-gradient(to right, #00FF00, #419EBF);
   transition: width 0.5s ease-in-out;
 }
+.lineInactive { background-color: #E5E7EB; }
 
-.lineInactive {
-  background-color: #E5E7EB;
-}
-
-/* --- CARDS DOS MÓDULOS (ACCORDION) --- */
+/* MODULE CARDS */
 .moduleCardWrapper {
   background: linear-gradient(135deg, #AECDC2 0%, #E8F4F8 100%);
   border-radius: 1rem;
@@ -131,135 +126,63 @@
   transition: all 0.2s;
   overflow: hidden;
 }
+.moduleCardWrapper:hover { transform: translateY(-2px); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); }
+.moduleCardWrapper.locked { background: #F0F2F5; opacity: 0.8; }
 
-.moduleCardWrapper:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-}
-
-.moduleCardWrapper.locked {
-  background: #F0F2F5;
-  opacity: 0.8;
-}
-
-.moduleHeader {
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.moduleCardWrapper.locked .moduleHeader {
-  cursor: default;
-}
+.moduleHeader { padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.moduleCardWrapper.locked .moduleHeader { cursor: default; }
 
 .moduleIcon {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: 1rem;
-  background-color: #fff;
-  color: #0A2540;
+  width: 4rem; height: 4rem; border-radius: 0.75rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: bold; margin-right: 1rem;
+  background-color: #fff; color: #0A2540;
 }
 
-.moduleInfo {
-  flex: 1;
-}
+.moduleInfo { flex: 1; }
+.moduleTitle { font-size: 1.125rem; font-weight: 600; color: #0A2540; margin: 0 0 0.25rem 0; }
+.moduleSubtitle { font-size: 0.875rem; color: #6B7280; margin: 0; }
+.statusIcon { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; background-color: #fff; font-size: 1.25rem; }
 
-.moduleTitle {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #0A2540;
-  margin: 0 0 0.25rem 0;
-}
-
-.moduleSubtitle {
-  font-size: 0.875rem;
-  color: #6B7280;
-  margin: 0;
-}
-
-.statusIcon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  font-size: 1.25rem;
-  transition: transform 0.3s ease;
-}
-
-/* Lista de Questões */
 .questionsList {
   background-color: rgba(255, 255, 255, 0.6);
   border-top: 1px solid rgba(0,0,0,0.05);
-  max-height: 0;
-  overflow: hidden;
+  max-height: 0; overflow: hidden;
   transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
 }
-
-.moduleCardWrapper.expanded .questionsList {
-  max-height: 500px;
-  padding: 1rem;
-}
+.moduleCardWrapper.expanded .questionsList { max-height: 500px; padding: 1rem; }
 
 .questionItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  border: 1px solid #E5E7EB;
-  transition: background 0.2s;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+  background-color: #fff; border-radius: 0.5rem; border: 1px solid #E5E7EB;
+  cursor: pointer; transition: background 0.2s;
 }
+.questionItem:hover { background-color: #F9FAFB; }
+.playBtn { background-color: #0A2540; color: #fff; border: none; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; }
 
-.questionItem:hover {
-  background-color: #F9FAFB;
-}
-
-.playBtn {
-  background-color: #0A2540;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* Stats e Chat */
+/* STATS */
 .statsCard {
   background: linear-gradient(135deg, #AECDC2 0%, #D4E7F0 100%);
-  border-radius: 1rem;
-  padding: 2rem;
+  border-radius: 1rem; padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 2rem;
-  text-align: center;
+  position: sticky; top: 2rem; text-align: center;
 }
 .statsTitle { font-size: 0.875rem; font-weight: 600; color: #0A2540; margin-bottom: 1.5rem; text-transform: uppercase; }
 .chartContainer { position: relative; width: 200px; height: 200px; margin: 0 auto; }
 .chartSvg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .chartText { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .progressText { margin-top: 1.5rem; font-weight: 500; color: #0A2540; }
-.chatContainer { position: fixed; bottom: 100px; right: 20px; z-index: 1000; }
 
 @media (max-width: 768px) {
   .pageLayout { grid-template-areas: "header" "main"; grid-template-columns: 1fr; }
+  .pageLayout > div:first-child { grid-column: 1; }
+  .mainContent { grid-column: 1; }
   .contentRow { flex-direction: column-reverse; }
   .statsColumn { width: 100%; }
   .stepperContainer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  
+  .chatOverlay {
+      right: 15px; bottom: 90px; width: calc(100% - 30px);
+  }
 }

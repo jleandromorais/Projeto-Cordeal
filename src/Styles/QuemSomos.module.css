@@ -1,58 +1,63 @@
+/* Importação da fonte Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
 .contentSection {
   background-color: #FFFFFF;
-  padding: 80px 0;
+  padding: 60px 0; /* Ajustado para espaçamento equilibrado */
 }
 
 .container {
-  max-width: 960px;
+  max-width: 1200px; /* Largura padrão alinhada com as outras seções */
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2rem;
 }
 
 .sectionTitleWrapper {
   margin-bottom: 40px;
 }
 
+/* Estilo do Título "QUEM SOMOS" */
 .sectionTitle {
   font-family: 'Poppins', sans-serif;
-  font-weight: 700;
+  font-weight: 800; /* Extra Bold para ficar bem grosso como na imagem */
   font-size: 2rem;
-  color: #033B5B;
+  color: #063F5C; /* Azul Escuro (o mesmo usado em "O QUE É") */
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin: 0;
+  /* Adiciona a sombra suave igual à imagem */
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
 }
 
-.titleUnderline {
-  width: 50px;
-  height: 4px;
-  background-color: #033B5B;
-  border-radius: 2px;
-}
-
+/* Estilo dos Parágrafos */
 .bodyText {
   font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 1.1rem;
-  color: #5A7A8A;
+  font-weight: 600; /* Aumentei o peso (era 400) para ficar mais nítido e escuro igual à foto */
+  font-size: 1rem;
+  color: #063F5C; /* Alterado de cinza (#5A7A8A) para Azul Escuro para bater com a imagem */
   line-height: 1.8;
   margin-bottom: 24px;
+  text-align: left; /* Alinhamento à esquerda conforme a imagem */
 }
 
+/* Faixa do Rodapé */
 .footerBand {
   width: 100%;
-  height: 150px;
-  background-color: #0B3D59;
+  height: 120px; /* Altura visualmente agradável */
+  background-color: #033B5B; /* Azul mais escuro para fechar a página */
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
   .container {
-    padding: 60px 20px;
+    padding: 40px 20px;
   }
+  
   .sectionTitle {
     font-size: 1.75rem;
   }
+  
   .bodyText {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    font-weight: 500; /* Um pouco mais leve no mobile para facilitar leitura */
   }
 }

@@ -1,5 +1,3 @@
-/* Nenhuma alteração aqui. */
-
 .functionalitiesSection {
   background-color: #ffffff;
   padding: 80px 0;
@@ -7,96 +5,108 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .sectionTitleWrapper {
-  margin-bottom: 48px;
+  margin-bottom: 50px;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .sectionTitle {
   font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 2rem;
-  color: #f5ad1b;
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: #00334e; /* Azul Escuro */
   text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.titleUnderline {
-  width: 60px;
-  height: 4px;
-  background-color: #f5ad1b;
-  border-radius: 2px;
+  margin: 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
 }
 
 .cardsGrid {
   display: grid;
-  /* A linha abaixo define EXATAMENTE 5 colunas de tamanho igual */
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(5, 1fr); /* 5 Colunas */
+  gap: 20px;
+  align-items: stretch;
 }
 
 .featureCard {
-  background-color: #f5ad1b;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: #f5ad1b; /* Amarelo */
+  border-radius: 24px;
+  padding: 30px 20px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
   height: 100%;
-  /* ADICIONE AS DUAS LINHAS ABAIXO */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
-
-/* EFEITO DE HOVER PARA O CARD */
 .featureCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.25);
 }
 
+/* O círculo branco atrás do ícone */
 .iconBackground {
-  width: 64px;
-  height: 64px;
-  background-color: rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   flex-shrink: 0;
 }
 
-.iconBackground i {
-  font-size: 32px;
-  color: #ffffff;
+/* O estilo da imagem PNG dentro do círculo */
+.cardIconImage {
+  width: 40px;  /* Ajuste este valor se o ícone parecer muito grande ou pequeno */
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .cardTitle {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: #ffffff;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  line-height: 1.2;
 }
 
 .cardDescription {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.6;
+  font-size: 0.85rem;
+  color: #00334e; /* Texto escuro */
+  line-height: 1.5;
   margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
   .sectionTitle {
     font-size: 1.75rem;
+    text-align: center;
+  }
+  .sectionTitleWrapper {
+    text-align: center;
+  }
+  .cardsGrid {
+    grid-template-columns: 1fr;
   }
 }

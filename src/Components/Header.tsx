@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../Styles/Header.module.css';
-import image2 from './image2.png';
+import logo from '../assets/img/logo.png';
 
 const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src={image2} alt="Logo" className={styles.logoIcon} />
+        <img src={logo} alt="Logo" className={styles.logoIcon} />
         <span className={styles.logoText}>CORDEAL</span>
       </div>
 

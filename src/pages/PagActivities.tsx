@@ -41,7 +41,6 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   const [accuracyPercentage, setAccuracyPercentage] = useState(0); 
   const [completedModules, setCompletedModules] = useState<number[]>([]);
 
-  // Definição da URL da API (Local ou Produção)
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
   useEffect(() => {
@@ -52,18 +51,15 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
             const token = await currentUser.getIdToken();
             const headers = { 'Authorization': `Bearer ${token}` };
 
-            // 1. BUSCAR O NOME (Perfil)
             const userRes = await fetch(`${API_URL}/user/profile`, { headers });
             if (userRes.ok) {
                 const userData = await userRes.json();
                 setUserName(userData.name || 'Utilizador');
             }
 
-            // 2. BUSCAR O PROGRESSO (Métricas)
             const metricsRes = await fetch(`${API_URL}/dashboard/metrics`, { headers });
             if (metricsRes.ok) {
                 const data = await metricsRes.json();
-                
                 const stats = data.stats || { questoesCertas: 0, questoesRespondidas: 0 };
                 setTotalScore(stats.questoesCertas);
                 
@@ -75,82 +71,51 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                 const doneIds: number[] = [];
                 if (data.modules) {
                     Object.keys(data.modules).forEach(key => {
-                        if (data.modules[key].completed) {
-                            doneIds.push(Number(key));
-                        }
+                        if (data.modules[key].completed) doneIds.push(Number(key));
                     });
                 }
                 setCompletedModules(doneIds);
             }
-
         } catch (error) {
             console.error("Erro ao carregar dados:", error);
             setUserName("Utilizador");
         }
     };
-
     fetchUserDataAndProgress();
   }, [currentUser, API_URL]); 
 
-  // Lógica dos módulos baseada no progresso vindo do banco
   const modules: Module[] = [
-    { 
-      id: 1, 
-      title: "Módulo 1", 
-      topic: "Fator Comum em Evidência", 
-      questionsCount: "5 Questões", 
-      status: completedModules.includes(1) ? "completed" : "in-progress" 
-    },
-    { 
-      id: 2, 
-      title: "Módulo 2", 
-      topic: "Diferença de Quadrados", 
-      questionsCount: "5 Questões", 
-      status: completedModules.includes(2) ? "completed" : (completedModules.includes(1) ? "in-progress" : "locked")
-    },
-    { 
-      id: 3, 
-      title: "Módulo 3", 
-      topic: "Trinômio do 2º Grau", 
-      questionsCount: "5 Questões", 
-      status: completedModules.includes(3) ? "completed" : (completedModules.includes(2) ? "in-progress" : "locked")
-    },
+    { id: 1, title: "Módulo 1", topic: "Fator Comum em Evidência", questionsCount: "5 Questões", status: completedModules.includes(1) ? "completed" : "in-progress" },
+    { id: 2, title: "Módulo 2", topic: "Diferença de Quadrados", questionsCount: "5 Questões", status: completedModules.includes(2) ? "completed" : (completedModules.includes(1) ? "in-progress" : "locked") },
+    { id: 3, title: "Módulo 3", topic: "Trinômio do 2º Grau", questionsCount: "5 Questões", status: completedModules.includes(3) ? "completed" : (completedModules.includes(2) ? "in-progress" : "locked") },
     { id: 4, title: "Módulo 4", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
     { id: 5, title: "Módulo 5", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
   ];
 
   const completedCount = completedModules.length;
-  
-  const steps = [
-    { id: 1, requiredCompleted: 0 },
-    { id: 2, requiredCompleted: 1 },
-    { id: 3, requiredCompleted: 3 },
-  ];
+  const steps = [{ id: 1, requiredCompleted: 0 }, { id: 2, requiredCompleted: 1 }, { id: 3, requiredCompleted: 3 }];
 
   const toggleChat = () => setIsChatOpen(!isChatOpen);
-
   const handleModuleClick = (moduleId: number, status: string) => {
     if (status === 'locked') return;
     setExpandedModuleId(expandedModuleId === moduleId ? null : moduleId);
   };
-
-  const handleNavigate = (moduleId: number) => {
-    navigate(`/questoes/${moduleId}`);
-  };
+  const handleNavigate = (moduleId: number) => { navigate(`/questoes/${moduleId}`); };
 
   return (
     <div className={styles.pageLayout}>
       <div style={{ gridArea: 'header' }}><Header userName={userName} /></div>
-      <div style={{ gridArea: 'sidebar' }}><Sidebar onLogout={onLogout} /></div>
+      
+      {/* Sidebar não precisa de gridArea pois é fixed position no CSS dela */}
+      <Sidebar onLogout={onLogout} />
   
       <main className={styles.mainContent}>
         
-        {/* STEPPER CORRIGIDO */}
+        {/* STEPPER */}
         <section className={styles.stepperContainer}>
             <div className={styles.stepperTitle}>TRILHA</div>
             <div className={styles.stepperSteps}>
                 {steps.map((step, index) => {
-                    // --- CORREÇÃO DE TYPESCRIPT AQUI ---
                     const currentReq = step.requiredCompleted;
                     const nextStepReq = steps[index + 1]?.requiredCompleted || 99;
                     const isLast = index === steps.length - 1;
@@ -185,6 +150,7 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
             </div>
         </section>
 
+        {/* MÓDULOS E ESTATÍSTICAS */}
         <div className={styles.contentRow}>
             <div className={styles.contentColumn}>
                 <h2 style={{ color: '#0A2540', marginBottom: '1rem' }}>Módulos Disponíveis</h2>
@@ -252,10 +218,12 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         </div>
       </main>
 
-      <div className={styles.chatContainer}>
-         {isChatOpen && <ChatWidget onClose={() => setIsChatOpen(false)} />}
+      {/* ÁREA DE CHAT FLUTUANTE */}
+      {/* Container fixo separado para garantir visibilidade */}
+      <div className={styles.chatOverlay}>
+          {isChatOpen && <ChatWidget onClose={() => setIsChatOpen(false)} />}
       </div>
-      {/* Botão flutuante com a Prop onClick corrigida */}
+      
       <FloatingChatButton onClick={toggleChat} />
     </div>
   );

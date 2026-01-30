@@ -1,157 +1,170 @@
-/* --- MUDANÇA: Importa as fontes 'Luckiest Guy' e 'Poppins' com os pesos necessários --- */
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600;700&display=swap');
 
-/* Hero Section */
+:root {
+  --cor-azul-escuro: #033B5B;
+  --cor-laranja: #F5AD1B;
+  --cor-texto-geral: #063F5C;
+  --cor-branco: #ffffff;
+}
+
 .hero {
-    display: flex;
-    min-height: 80vh;
-    padding-inline: 4rem;
-    align-items: center;
-    background-color: #ffffff;
-    /* A fonte base foi removida daqui para ser aplicada em cada elemento específico */
+  background-color: var(--cor-branco);
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
 }
 
-/* Layout de duas colunas */
-.hero__content {
-    display: flex;
-    width: 100%;
-    gap: 2rem;
-    align-items: center;
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  gap: 4rem;
 }
 
-.hero__text {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+/* --- Coluna da Esquerda (Textos) --- */
+.heroContentLeft {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-/* --- ESTILOS DE TEXTO ATUALIZADOS --- */
-
-.hero__title {
-    font-family: 'Luckiest Guy', cursive; /* <-- FONTE: Luckiest Guy */
-    font-size: 4rem; /* Ajustado para a nova fonte */
-    font-weight: 400; /* 'Luckiest Guy' só tem o peso 400 */
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: #033B5B; /* Mantida a cor original do título */
-    margin-bottom: 0.5rem;
+.heroTitle {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 4.5rem;
+  color: var(--cor-azul-escuro);
+  margin: 0 0 1rem 0;
+  line-height: 1;
+  letter-spacing: 1px;
 }
 
-.hero__subtitle {
-    font-family: 'Poppins', sans-serif; /* <-- FONTE: Poppins */
-    font-weight: 700; /* <-- PESO: Bold (700) */
-    color: #F5AD1B; /* <-- COR: #F5AD1B */
-    font-size: 2rem;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    line-height: 1.3;
+.heroSubtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--cor-laranja);
+  text-transform: uppercase;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.3;
 }
 
-.hero__description {
-    font-family: 'Poppins', sans-serif; /* <-- FONTE: Poppins */
-    font-weight: 400; /* <-- PESO: Regular (400) */
-    font-size: 20px; /* <-- TAMANHO: 20px */
-    color: #063F5C; /* <-- COR: #063F5C */
-    opacity: 1; /* Removida a transparência para usar a cor sólida */
-    margin-bottom: 2.5rem;
-    max-width: 90%;
-    line-height: 1.6;
+.heroDescription {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--cor-texto-geral);
+  line-height: 1.6;
+  margin: 0 0 2.5rem 0;
 }
 
-/* --- FIM DOS ESTILOS DE TEXTO ATUALIZADOS --- */
-
-/* Botões (sem alteração) */
-.hero__buttons {
-    display: flex;
-    gap: 1rem;
+/* --- Botões --- */
+.heroButtonsGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.button {
-    background-color: #033B5B;
-    color: white;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    padding: 0.8rem 1.8rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(3, 59, 91, 0.2);
-    font-family: 'Poppins', sans-serif; /* Garante que os botões também usem Poppins */
+.heroButton {
+  background-color: var(--cor-azul-escuro);
+  color: var(--cor-branco);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 120px;
+  text-align: center;
 }
 
-.button:hover {
-    background-color: #022a42;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(3, 59, 91, 0.3);
+.heroButton:hover {
+  background-color: #022a42;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(3, 59, 91, 0.3);
 }
 
-/* Área da Imagem (sem alteração) */
-.hero__image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* --- Coluna da Direita (Imagem) --- */
+.heroContentRight {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.avatarGroup {
-    position: relative;
-    width: 380px;
-    height: 380px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(0px 10px 25px rgba(0, 0, 0, 0.15));
+/* Estilo da Logo */
+.logoImage {
+  width: 100%;
+  max-width: 500px; /* Um pouco maior que na AboutSection pois é a Hero */
+  height: auto;
+  object-fit: contain;
+  /* Sombra suave para destacar do fundo branco */
+  filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15));
 }
 
-.floatingNumbers {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    opacity: 0.6;
-}
+/* --- Responsividade --- */
 
-.hero__avatar {
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    object-fit: contain;
-    z-index: 2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Responsividade (sem alteração) */
+/* Tablet e Telas Menores */
 @media (max-width: 992px) {
-    .hero__content {
-        flex-direction: column;
-        text-align: center;
-    }
-    .hero__text {
-        align-items: center;
-    }
-    .hero__image {
-        margin-top: 3rem;
-    }
+  .heroContainer {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .heroContentLeft {
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.3rem;
+  }
+
+  .heroButtonsGroup {
+    justify-content: center;
+  }
+
+  .logoImage {
+    max-width: 350px; /* Reduz tamanho no tablet */
+  }
 }
 
+/* Celulares */
 @media (max-width: 576px) {
-    .hero__title {
-        font-size: 3rem;
-    }
-    .hero__subtitle {
-        font-size: 1.5rem;
-    }
-    .hero__buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-    .button {
-        width: 100%;
-    }
+  .hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2.8rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.1rem;
+  }
+
+  .heroButtonsGroup {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  .heroButton {
+    width: 100%;
+  }
+
+  .logoImage {
+    max-width: 280px; /* Tamanho ideal para mobile */
+  }
 }

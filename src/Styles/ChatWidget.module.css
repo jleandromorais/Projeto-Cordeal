@@ -1,99 +1,138 @@
+/* Variáveis de cor baseadas na imagem */
+:root {
+  --chat-header-bg: #1A3C54;   /* Azul escuro do cabeçalho */
+  --chat-bg: #FFFFFF;          /* Fundo branco */
+  --chat-ai-bubble: #829AB1;   /* Cinza-azulado para a IA (NEVES) */
+  --chat-user-bubble: #90C5D9; /* Azul claro para o usuário (VOCÊ) */
+  --chat-text-color: #FFFFFF;  /* Texto branco nos balões */
+  --chat-label-color: #1A3C54; /* Cor dos rótulos "NEVES" e "VOCÊ" */
+  --chat-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave */
+}
+
 .chatContainer {
-  position: fixed;
-  bottom: 100px; /* Acima do botão FAB */
-  right: 30px;
-  width: 350px;
-  height: 450px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  width: 380px; /* Um pouco mais largo para acomodar o design */
+  height: 500px;
+  background-color: var(--chat-bg);
+  border-radius: 12px; /* Bordas arredondadas externas */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 1000;
-  border: 1px solid #e0e0e0;
   font-family: 'Inter', sans-serif;
+  border: 1px solid #e0e0e0; /* Borda sutil ao redor de tudo */
 }
 
 .header {
-  background-color: #419EBF; /* Azul do Cordeal */
-  padding: 15px;
+  background-color: var(--chat-header-bg);
+  padding: 15px 20px;
   color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Título centralizado */
   align-items: center;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.1rem;
+  position: relative;
+  letter-spacing: 1px;
 }
 
 .closeBtn {
+  position: absolute;
+  right: 15px;
   background: none;
   border: none;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   cursor: pointer;
+  line-height: 1;
+  padding: 0;
 }
 
 .messagesArea {
   flex: 1;
-  padding: 15px;
+  padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: #f9f9f9;
+  gap: 15px; /* Espaço maior entre os blocos de mensagem */
+  background-color: var(--chat-bg);
 }
 
-.message {
-  max-width: 80%;
-  padding: 10px 15px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.userMsg {
-  align-self: flex-end;
-  background-color: #419EBF;
-  color: white;
-  border-bottom-right-radius: 2px;
-}
-
-.aiMsg {
-  align-self: flex-start;
-  background-color: #e0e0e0;
-  color: #333;
-  border-bottom-left-radius: 2px;
-}
-
-.inputArea {
-  padding: 10px;
-  border-top: 1px solid #eee;
+/* --- Blocos de Mensagem (Nome + Balão) --- */
+.messageBlock {
   display: flex;
-  gap: 10px;
-  background: white;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.userBlock {
+  align-self: flex-end;
+  align-items: flex-end; /* Alinha o nome à direita também */
+}
+
+.aiBlock {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+/* Rótulo com o nome (NEVES / VOCÊ) */
+.senderName {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--chat-label-color);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+/* --- Balões de Mensagem --- */
+.messageBubble {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--chat-text-color);
+  box-shadow: var(--chat-shadow);
+  word-wrap: break-word;
+}
+
+.userBubble {
+  background-color: var(--chat-user-bubble);
+  border-bottom-right-radius: 2px; /* Canto reto sutil */
+}
+
+.aiBubble {
+  background-color: var(--chat-ai-bubble);
+  border-bottom-left-radius: 2px; /* Canto reto sutil */
+}
+
+/* --- Área de Input --- */
+.inputArea {
+  padding: 15px 20px;
+  background: var(--chat-bg);
+  display: flex;
+  align-items: center;
+  border-top: none; /* Remove a borda superior padrão */
+}
+
+/* Ícone de clipe */
+.attachIcon {
+  font-size: 1.4rem;
+  color: var(--chat-ai-bubble); /* Mesma cor do input */
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .input {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  outline: none;
-}
-
-.sendBtn {
-  background-color: #419EBF;
-  color: white;
+  padding: 12px 15px;
+  background-color: var(--chat-ai-bubble); /* Cor de fundo igual ao balão da IA */
   border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  color: var(--chat-text-color); /* Texto branco ao digitar */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.sendBtn:disabled {
-  background-color: #ccc;
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Placeholder mais claro */
 }

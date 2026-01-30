@@ -1,36 +1,40 @@
-/* src/Styles/FloatingChatButton.module.css */
-.fab {
+.floatingBtn {
   position: fixed;
   bottom: 30px;
   right: 30px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #419EBF; /* Azul do Cordeal */
+  background-color: #419EBF; /* Azul Cordeal */
   color: white;
   border: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  z-index: 1100; /* Garante que fica acima de tudo */
-  transition: transform 0.2s ease, background-color 0.2s;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10000; /* Garante que fique acima da sidebar e do footer */
 }
 
-.fab:hover {
-  transform: scale(1.1);
-  background-color: #358ca8;
+.floatingBtn:hover {
+  background-color: #3585a3;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Opcional: Ajuste para ecrãs pequenos se necessário */
+.floatingBtn:active {
+  transform: scale(0.95);
+}
+
+/* Ajuste para Mobile para não cobrir conteúdo importante */
 @media (max-width: 768px) {
-  .fab {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
+  .floatingBtn {
     bottom: 20px;
     right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
   }
 }
