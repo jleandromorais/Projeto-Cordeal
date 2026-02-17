@@ -33,7 +33,8 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
-  const [userName, setUserName] = useState<string>("...");
+  // Usa o displayName do Firebase como fallback imediato
+  const [userName, setUserName] = useState<string>(currentUser?.displayName || "...");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [expandedModuleId, setExpandedModuleId] = useState<number | null>(null);
 
@@ -48,13 +49,24 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         if (!currentUser) return;
 
         try {
+            // Cache: verifica se já tem o nome em localStorage
+            const cachedName = localStorage.getItem(`userName_${currentUser.uid}`);
+            if (cachedName) {
+                setUserName(cachedName);
+            } else if (currentUser.displayName) {
+                setUserName(currentUser.displayName);
+            }
+
             const token = await currentUser.getIdToken();
             const headers = { 'Authorization': `Bearer ${token}` };
 
             const userRes = await fetch(`${API_URL}/user/profile`, { headers });
             if (userRes.ok) {
                 const userData = await userRes.json();
-                setUserName(userData.name || 'Utilizador');
+                const finalName = userData.name || 'Utilizador';
+                setUserName(finalName);
+                // Salva no cache
+                localStorage.setItem(`userName_${currentUser.uid}`, finalName);
             }
 
             const metricsRes = await fetch(`${API_URL}/dashboard/metrics`, { headers });
@@ -82,14 +94,44 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         }
     };
     fetchUserDataAndProgress();
-  }, [currentUser, API_URL]); 
+  }, [currentUser]); // Removido API_URL das dependências (é constante)
 
   const modules: Module[] = [
-    { id: 1, title: "Módulo 1", topic: "Fator Comum em Evidência", questionsCount: "5 Questões", status: completedModules.includes(1) ? "completed" : "in-progress" },
-    { id: 2, title: "Módulo 2", topic: "Diferença de Quadrados", questionsCount: "5 Questões", status: completedModules.includes(2) ? "completed" : (completedModules.includes(1) ? "in-progress" : "locked") },
-    { id: 3, title: "Módulo 3", topic: "Trinômio do 2º Grau", questionsCount: "5 Questões", status: completedModules.includes(3) ? "completed" : (completedModules.includes(2) ? "in-progress" : "locked") },
-    { id: 4, title: "Módulo 4", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
-    { id: 5, title: "Módulo 5", topic: "Aguardando", questionsCount: "Bloqueado", status: "locked" },
+    { 
+      id: 1, 
+      title: "Módulo 1", 
+      topic: "Fator Comum em Evidência", 
+      questionsCount: "5 Questões", 
+      status: completedModules.includes(1) ? "completed" : "in-progress" // Módulo 1 sempre disponível
+    },
+    { 
+      id: 2, 
+      title: "Módulo 2", 
+      topic: "Diferença de Quadrados", 
+      questionsCount: "5 Questões", 
+      status: completedModules.includes(2) ? "completed" : (completedModules.includes(1) ? "in-progress" : "locked") 
+    },
+    { 
+      id: 3, 
+      title: "Módulo 3", 
+      topic: "Trinômio do 2º Grau", 
+      questionsCount: "5 Questões", 
+      status: completedModules.includes(3) ? "completed" : (completedModules.includes(2) ? "in-progress" : "locked") 
+    },
+    { 
+      id: 4, 
+      title: "Módulo 4", 
+      topic: "Aguardando", 
+      questionsCount: "Bloqueado", 
+      status: "locked" 
+    },
+    { 
+      id: 5, 
+      title: "Módulo 5", 
+      topic: "Aguardando", 
+      questionsCount: "Bloqueado", 
+      status: "locked" 
+    },
   ];
 
   const completedCount = completedModules.length;
@@ -104,12 +146,14 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
 
   return (
     <div className={styles.pageLayout}>
-      <div style={{ gridArea: 'header' }}><Header userName={userName} /></div>
       
-      {/* Sidebar não precisa de gridArea pois é fixed position no CSS dela */}
+      {/* Sidebar fixa */}
       <Sidebar onLogout={onLogout} />
   
       <main className={styles.mainContent}>
+        
+        {/* Header */}
+        <Header userName={userName} />
         
         {/* STEPPER */}
         <section className={styles.stepperContainer}>
@@ -203,7 +247,7 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
                     <h3 className={styles.statsTitle}>Sua Performance</h3>
                     <div className={styles.chartContainer}>
                         <svg className={styles.chartSvg} viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(10, 37, 64, 0.1)" strokeWidth="16" strokeLinecap="round" />
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="16" strokeLinecap="round" />
                             <circle 
                                 cx="100" cy="100" r="80" fill="none" stroke={accuracyPercentage > 50 ? "#00FF00" : "#F4A261"} strokeWidth="16" strokeLinecap="round" 
                                 strokeDasharray={`${(accuracyPercentage / 100) * 502.4} 502.4`}
@@ -218,11 +262,12 @@ const PagActivities: React.FC<PagActivitiesProps> = ({ onLogout }) => {
         </div>
       </main>
 
-      {/* ÁREA DE CHAT FLUTUANTE */}
-      {/* Container fixo separado para garantir visibilidade */}
-      <div className={styles.chatOverlay}>
-          {isChatOpen && <ChatWidget onClose={() => setIsChatOpen(false)} />}
-      </div>
+      {/* CHAT FLUTUANTE */}
+      {isChatOpen && (
+        <div className={styles.chatOverlay}>
+          <ChatWidget onClose={() => setIsChatOpen(false)} />
+        </div>
+      )}
       
       <FloatingChatButton onClick={toggleChat} />
     </div>

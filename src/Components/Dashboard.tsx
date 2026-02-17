@@ -39,14 +39,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
   const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
   const [tooltipData, setTooltipData] = useState<TooltipData>({ visible: false, content: {}, x: 0, y: 0 });
   const [formData, setFormData] = useState<EventData>({ title: '', prof: '', time: '', subject: '' });
+
+  // API URL from environment
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
   
   useEffect(() => {
     if (currentUser) {
       const fetchData = async () => {
         try {
           const token = await currentUser.getIdToken();
-          const authHeader = { 'Authorization': `Bearer ${token}` };
-          const API_URL = 'http://localhost:3001/api'; 
+          const authHeader = { 'Authorization': `Bearer ${token}` }; 
           const [metricsRes, eventsRes, notesRes] = await Promise.all([
             fetch(`${API_URL}/dashboard/metrics`, { headers: authHeader }),
             fetch(`${API_URL}/calendar/events`, { headers: authHeader }),
@@ -68,7 +70,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     if (!currentUser) return;
     try {
         const token = await currentUser.getIdToken();
-        await fetch('http://localhost:3001/api/dashboard/notes', {
+        await fetch(`${API_URL}/dashboard/notes`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ content: notes })
@@ -94,7 +96,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     if (!selectedDateKey || !currentUser) return;
     try {
       const token = await currentUser.getIdToken();
-      await fetch('http://localhost:3001/api/calendar/events', {
+      await fetch(`${API_URL}/calendar/events`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ dateKey: selectedDateKey, eventData: formData })
@@ -108,7 +110,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
     if (!selectedDateKey || !currentUser) return;
     try {
         const token = await currentUser.getIdToken();
-        await fetch(`http://localhost:3001/api/calendar/events/${selectedDateKey}`, {
+        await fetch(`${API_URL}/calendar/events/${selectedDateKey}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });

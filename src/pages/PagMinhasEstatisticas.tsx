@@ -68,7 +68,8 @@ const PagMinhasEstatisticas: React.FC = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   
-  const [userName, setUserName] = useState<string>("...");
+  // Usa o displayName do Firebase como fallback imediato
+  const [userName, setUserName] = useState<string>(currentUser?.displayName || "...");
   
   // ESTADO DO CHAT
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -90,16 +91,26 @@ const PagMinhasEstatisticas: React.FC = () => {
       if (!currentUser) return;
 
       try {
+        // Cache: verifica se já tem o nome em localStorage
+        const cachedName = localStorage.getItem(`userName_${currentUser.uid}`);
+        if (cachedName) {
+          setUserName(cachedName);
+        } else if (currentUser.displayName) {
+          setUserName(currentUser.displayName);
+        }
+
         const token = await currentUser.getIdToken();
         const headers = { 'Authorization': `Bearer ${token}` };
-        // Usa a variável de ambiente ou fallback
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
         // 1. Busca Nome
         const userRes = await fetch(`${API_URL}/user/profile`, { headers });
         if (userRes.ok) {
           const userData = await userRes.json();
-          setUserName(userData.name || currentUser.displayName || 'Utilizador');
+          const finalName = userData.name || currentUser.displayName || 'Utilizador';
+          setUserName(finalName);
+          // Salva no cache
+          localStorage.setItem(`userName_${currentUser.uid}`, finalName);
         }
 
         // 2. Busca Estatísticas (ajustado para a rota correta que criamos antes)
@@ -150,30 +161,31 @@ const PagMinhasEstatisticas: React.FC = () => {
   return (
     <div className="container">
       
-      <div style={{ flexShrink: 0 }}>
-         <Sidebar onLogout={handleLogout} />
-      </div>
+      {/* Sidebar fixa */}
+      <Sidebar onLogout={handleLogout} />
 
       <main className="content">
         
         <header className="header">
           <div 
-            style={{ display: 'flex', alignItems: 'center', marginRight: 'auto', cursor: 'pointer', color: '#003366', gap: '8px' }}
+            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', color: '#0A2540', gap: '10px', transition: 'all 0.3s' }}
             onClick={() => navigate('/dashboard')}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(-4px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
           >
-             <CaretLeft size={24} weight="bold" />
-             <span style={{fontWeight: 'bold'}}>Voltar</span>
+             <CaretLeft size={28} weight="bold" />
+             <span style={{fontWeight: 'bold', fontSize: '1.1rem'}}>Voltar</span>
           </div>
 
           <div className="user-info">
             <span>{loading ? "Carregando..." : userName}</span>
-            <UserCircle size={48} weight="fill" />
+            <UserCircle size={52} weight="fill" />
           </div>
         </header>
 
         <section className="stats-section">
           {loading ? (
-             <p style={{color: '#003366', fontSize: '1.2rem'}}>Carregando suas conquistas...</p>
+             <p style={{color: '#0A2540', fontSize: '1.3rem', fontWeight: '600'}}>Carregando suas conquistas...</p>
           ) : (
             <>
               <div className="cards-grid">
@@ -202,7 +214,7 @@ const PagMinhasEstatisticas: React.FC = () => {
 
         {/* CHAT WIDGET E BOTÃO CORRIGIDOS */}
         {isChatOpen && (
-          <div style={{ position: 'fixed', bottom: '90px', right: '20px', zIndex: 1000 }}>
+          <div style={{ position: 'fixed', bottom: '90px', right: '30px', zIndex: 1000 }}>
              <ChatWidget onClose={() => setIsChatOpen(false)} />
           </div>
         )}

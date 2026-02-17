@@ -10,7 +10,8 @@ import PagLogin from './pages/PagLogin.tsx';
 import PagDash from './pages/PagDash.tsx';
 import PagActivities from './pages/PagActivities.tsx'; // Nova página de Módulos
 import PagQuestions from './pages/PagQuestions.tsx'; // Nova página de Questões
-import PagMinhasEstatisticas from './pages/PagMinhasEstatisticas.tsx'; 
+import PagMinhasEstatisticas from './pages/PagMinhasEstatisticas.tsx';
+import PagFeedback from './pages/PagFeedback.tsx'; // Página de Feedback 
 
 // Importando Layouts e Rotas Protegidas
 import MainLayout from './pages/MainLayout.tsx';
@@ -64,10 +65,16 @@ function App() {
           element={<PagQuestions />} 
         />
 
-        {/* 2. ADICIONE A ROTA AQUI */}
+        {/* Tela de Estatísticas */}
         <Route 
           path="/estatisticas" 
           element={<PagMinhasEstatisticas />} 
+        />
+
+        {/* Tela de Feedback */}
+        <Route 
+          path="/feedback" 
+          element={<PagFeedback onLogout={handleLogout} />} 
         />
 
       </Route>

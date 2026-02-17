@@ -46,6 +46,130 @@
   background-color: #033B5B; /* Azul mais escuro para fechar a página */
 }
 
+/* Seção da Equipe */
+.teamSection {
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 3px solid #E8F1F5;
+}
+
+.teamTitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #063F5C;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 60px;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.teamCard {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FBFD 100%);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(6, 63, 92, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid #E8F1F5;
+}
+
+.teamCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(6, 63, 92, 0.2);
+  border-color: #419EBF;
+}
+
+.photoContainer {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #419EBF;
+  box-shadow: 0 8px 30px rgba(65, 158, 191, 0.3);
+}
+
+.teamPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.placeholderPhoto {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #419EBF 0%, #063F5C 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.placeholderPhoto i {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+.placeholderPhoto p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.memberName {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #063F5C;
+  margin-bottom: 10px;
+}
+
+.memberRole {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #419EBF;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.linkedinButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #0077B5 0%, #005582 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 119, 181, 0.3);
+}
+
+.linkedinButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 119, 181, 0.4);
+  background: linear-gradient(135deg, #005582 0%, #003d5c 100%);
+}
+
+.linkedinButton i {
+  font-size: 1.2rem;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .container {
@@ -59,5 +183,37 @@
   .bodyText {
     font-size: 0.95rem;
     font-weight: 500; /* Um pouco mais leve no mobile para facilitar leitura */
+  }
+
+  .teamSection {
+    margin-top: 60px;
+    padding-top: 40px;
+  }
+
+  .teamTitle {
+    font-size: 1.75rem;
+    margin-bottom: 40px;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .teamCard {
+    padding: 30px 20px;
+  }
+
+  .photoContainer {
+    width: 150px;
+    height: 150px;
+  }
+
+  .memberName {
+    font-size: 1.2rem;
+  }
+
+  .memberRole {
+    font-size: 0.9rem;
   }
 }

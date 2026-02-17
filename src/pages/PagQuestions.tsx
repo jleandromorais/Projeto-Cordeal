@@ -71,6 +71,9 @@ const PagQuestions: React.FC = () => {
   const [showReport, setShowReport] = useState(false);
   const [finalScore, setFinalScore] = useState({ correct: 0, total: 0, percentage: 0, isPass: false });
 
+  // API URL from environment
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
   useEffect(() => {
     if (currentUser) {
          setUserName(currentUser.displayName || "Utilizador");
@@ -86,8 +89,7 @@ const PagQuestions: React.FC = () => {
     try {
         const token = await currentUser.getIdToken();
         
-        // ROTA ajustada para a porta 3001 e /api/user/save-quiz
-        const response = await fetch('http://localhost:3001/api/user/save-quiz', {
+        const response = await fetch(`${API_URL}/user/save-quiz`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,11 +116,13 @@ const PagQuestions: React.FC = () => {
   if (!moduleData) {
     return (
         <div className={styles.pageLayout}>
-            <div style={{gridArea: 'header'}}><Header userName={userName} /></div>
-            <div style={{gridArea: 'sidebar'}}><Sidebar onLogout={() => {}} /></div>
+            <Sidebar onLogout={() => {}} />
             <main className={styles.mainContent}>
-                <h2>Módulo não encontrado.</h2>
-                <button onClick={() => navigate('/atividades')}>Voltar</button>
+                <Header userName={userName} />
+                <div className={styles.questionCard}>
+                  <h2>Módulo não encontrado.</h2>
+                  <button onClick={() => navigate('/atividades')} className={styles.btnPrev}>Voltar</button>
+                </div>
             </main>
         </div>
     );
@@ -128,10 +132,10 @@ const PagQuestions: React.FC = () => {
   if (showReport) {
     return (
         <div className={styles.pageLayout}>
-            <div style={{ gridArea: 'header' }}><Header userName={userName} /></div>
-            <div style={{ gridArea: 'sidebar' }}><Sidebar onLogout={() => navigate('/')} /></div>
+            <Sidebar onLogout={() => navigate('/')} />
             <main className={styles.mainContent}>
-                <div className={styles.questionCard} style={{ maxWidth: '800px' }}>
+                <Header userName={userName} />
+                <div className={styles.questionCard} style={{ maxWidth: '900px' }}>
                     <h2 style={{ color: '#333', marginBottom: '10px' }}>Relatório de Desempenho</h2>
                     <div style={{ padding: '20px', background: finalScore.isPass ? '#d4edda' : '#f8d7da', color: finalScore.isPass ? '#155724' : '#721c24', borderRadius: '8px', marginBottom: '20px', textAlign: 'center' }}>
                         <h1 style={{ fontSize: '3rem', margin: 0 }}>{finalScore.percentage}%</h1>
@@ -234,10 +238,11 @@ const PagQuestions: React.FC = () => {
 
   return (
     <div className={styles.pageLayout}>
-      <div style={{ gridArea: 'header' }}><Header userName={userName} /></div>
-      <div style={{ gridArea: 'sidebar' }}><Sidebar onLogout={() => navigate('/')} /></div>
+      <Sidebar onLogout={() => navigate('/')} />
 
       <main className={styles.mainContent}>
+        <Header userName={userName} />
+        
         <div className={styles.questionCard}>
             
             <div className={styles.cardHeader}>

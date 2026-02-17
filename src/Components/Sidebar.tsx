@@ -21,7 +21,7 @@ const navLinks: NavLink[] = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,21 +29,27 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
     navigate(path);
   };
 
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <aside className={`${styles.sidebar} ${isOpen ? '' : styles.collapsed}`}>
+    <aside className={`${styles.sidebar} ${isExpanded ? styles.expanded : ''}`}>
       
       <div className={styles.sidebarHeader}>
+        {/* Botão Hamburger (3 barras) */}
         <button 
-            className={styles.toggleBtn} 
-            onClick={() => setIsOpen(!isOpen)}
-            title={isOpen ? "Fechar menu" : "Abrir menu"}
+          className={styles.hamburgerBtn}
+          onClick={toggleSidebar}
+          aria-label="Toggle Menu"
         >
-            <i className="fas fa-bars"></i>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
         
-        {isOpen && (
-          <h1 className={styles.logoText}>CORDEAL</h1>
-        )}
+        {/* Logo que aparece quando expandido */}
+        {isExpanded && <h1 className={styles.logoText}>CORDEAL</h1>}
       </div>
 
       <nav className={styles.sidebarNav}>
@@ -60,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
                 title={link.text}
               >
                 <i className={link.icon}></i>
-                {isOpen && <span>{link.text}</span>}
+                {isExpanded && <span>{link.text}</span>}
               </a>
             </li>
           ))}
@@ -70,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
       <div className={styles.sidebarFooter}>
         <button onClick={onLogout} className={styles.logoutBtn}>
           <i className="fas fa-sign-out-alt"></i>
-          {isOpen && <span>Sair</span>}
+          {isExpanded && <span>Sair</span>}
         </button>
       </div>
     </aside>

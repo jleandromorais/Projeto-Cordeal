@@ -6,15 +6,15 @@ import { getFirestore } from "firebase/firestore";
 // (O getAnalytics é opcional, mas vamos manter o que você colou)
 import { getAnalytics } from "firebase/analytics";
 
-// Suas chaves corretas que você acabou de colar
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyDsCC1NRCBkdLs8Upx9E-lKd0zmGfVPAgw",
-  authDomain: "projeto-cordeal.firebaseapp.com",
-  projectId: "projeto-cordeal",
-  storageBucket: "projeto-cordeal.firebasestorage.app",
-  messagingSenderId: "1062964883330",
-  appId: "1:1062964883330:web:27306be528073c037e699b",
-  measurementId: "G-KM66MHT8HY"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

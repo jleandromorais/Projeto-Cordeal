@@ -17,6 +17,40 @@ const formatCPF = (value: string) => {
     .substring(0, 14);
 };
 
+const validateCPF = (cpf: string): boolean => {
+  // Remove caracteres não numéricos
+  const cleanCPF = cpf.replace(/\D/g, '');
+  
+  // Verifica se tem 11 dígitos
+  if (cleanCPF.length !== 11) return false;
+  
+  // Verifica se todos os dígitos são iguais (ex: 111.111.111-11)
+  if (/^(\d)\1{10}$/.test(cleanCPF)) return false;
+  
+  // Validação dos dígitos verificadores
+  let sum = 0;
+  let remainder;
+  
+  // Validação do primeiro dígito verificador
+  for (let i = 1; i <= 9; i++) {
+    sum += parseInt(cleanCPF.substring(i - 1, i)) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cleanCPF.substring(9, 10))) return false;
+  
+  // Validação do segundo dígito verificador
+  sum = 0;
+  for (let i = 1; i <= 10; i++) {
+    sum += parseInt(cleanCPF.substring(i - 1, i)) * (12 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cleanCPF.substring(10, 11))) return false;
+  
+  return true;
+};
+
 const formatTelefone = (value: string) => {
   return value
     .replace(/\D/g, '')
@@ -61,6 +95,12 @@ const PagCadastro: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    // Validação do CPF
+    if (!validateCPF(formData.cpf)) {
+      setError("CPF inválido. Por favor, verifique o número digitado.");
+      return;
+    }
 
     if (formData.senha.length < 6) {
       setError("A senha é muito fraca. Use pelo menos 6 caracteres.");
@@ -292,7 +332,7 @@ const PagCadastro: React.FC = () => {
         </form>
         
         <p style={{textAlign: 'center', marginTop: '1rem'}}>
-           Já tem uma conta? <span style={{color: 'blue', cursor: 'pointer', textDecoration: 'underline'}} onClick={() => navigate('/')}>Faça Login</span>
+           Já tem uma conta? <span style={{color: 'blue', cursor: 'pointer', textDecoration: 'underline'}} onClick={() => navigate('/login')}>Faça Login</span>
         </p> 
       </div>
     </div>

@@ -11,10 +11,12 @@ interface HeaderInitProps {
 const HeaderInit: React.FC<HeaderInitProps> = ({ userName }) => {
   return (
     <header className={styles.mainHeader}>
+      {/* Perfil do Usuário - estilo Figma (simples e discreto) */}
       <div className={styles.userProfile}>
-        {/* 3. Usar a prop 'userName' que veio do "pai" */}
-        <span>{userName}</span>
-        <i className="fas fa-user-circle"></i>
+        <span className={styles.userName}>{userName}</span>
+        <div className={styles.avatarCircle}>
+          <i className="fas fa-user"></i>
+        </div>
       </div>
     </header>
   );

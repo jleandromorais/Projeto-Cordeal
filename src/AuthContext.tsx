@@ -23,14 +23,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Flag para evitar race condition quando o componente desmontar
+    let isMounted = true;
+
     // Este é o "ouvinte" do Firebase. Ele dispara
     // quando o usuário loga ou desloga.
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setLoading(false);
+      if (isMounted) {
+        setCurrentUser(user);
+        setLoading(false);
+      }
     });
 
-    return unsubscribe; // Limpa o ouvinte quando o componente desmontar
+    // Cleanup: marca como desmontado e limpa o ouvinte
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   const value = {

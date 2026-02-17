@@ -22,6 +22,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // API URL from environment
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -37,7 +40,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ onClose }) => {
 
     try {
       const token = await currentUser.getIdToken();
-      const response = await fetch('http://localhost:3001/api/chat/message', {
+      const response = await fetch(`${API_URL}/chat/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +94,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ onClose }) => {
       </div>
 
       <div className={styles.inputArea}>
-        {/* Ícone de clipe adicionado */}
+        {/* Ícone de clipe */}
         <i className={`fas fa-paperclip ${styles.attachIcon}`}></i>
         <input 
           type="text" 
@@ -102,7 +105,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ onClose }) => {
           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
           disabled={isLoading}
         />
-        {/* Botão de enviar removido para seguir o estilo da imagem */}
+        {/* Botão de enviar para dispositivos móveis */}
+        <button 
+          onClick={handleSendMessage} 
+          disabled={isLoading || !inputText.trim()}
+          className={styles.sendButton}
+          aria-label="Enviar mensagem"
+        >
+          <i className="fas fa-paper-plane"></i>
+        </button>
       </div>
     </div>
   );
