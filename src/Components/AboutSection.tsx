@@ -17,7 +17,7 @@ const AboutSection: React.FC = () => {
           </div>
           
           <p className={styles.descriptionParagraph}>
-            A plataforma foi desenvolvida com o objetivo de auxiliar estudantes durante o processo de aprendizagem, fazendo com que esse exercício seja leve e proveitoso. Aqui terão a oportunidade de poder extrair o melhor de si e acompanhar seu rendimento enquanto se divertem.
+            A plataforma foi desenvolvida com o objetivo de auxiliar você durante o processo de aprendizagem, fazendo com que essa construção seja leve e proveitosa. Aqui você terá a oportunidade de poder extrair o melhor de si e acompanhar seu rendimento enquanto se diverte.
           </p>
           
           <h3 className={styles.cordealHeading}>CORDEAL</h3>

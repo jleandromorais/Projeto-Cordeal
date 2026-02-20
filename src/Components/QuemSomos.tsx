@@ -8,17 +8,18 @@ import fotoLeo from '../assets/img/Leo.png';
 
 const QuemSomos: React.FC = () => {
   const equipe = [
-    {
-      nome: 'Leandro Morais',
-      cargo: 'Tech Lead & Dev Full Stack',
-      foto: fotoLeo, // Espaço reservado para sua foto
-      linkedin: 'https://www.linkedin.com/in/leandro-morais-luz/' // Adicione seu LinkedIn aqui
-    },
+   
     {
       nome: 'Alessandra Barbosa',
       cargo: 'Designer Figma & Dev Front-End',
       foto: fotoAlessandra,
       linkedin: 'https://www.linkedin.com/in/alessandra-barbosa-308072323'
+    },
+    {
+      nome: 'Leandro Morais',
+      cargo: 'Tech Lead & Dev Full Stack',
+      foto: fotoLeo, // Espaço reservado para sua foto
+      linkedin: 'https://www.linkedin.com/in/leandro-morais-luz/' // Adicione seu LinkedIn aqui
     },
     {
       nome: 'Thays Barbosa',
