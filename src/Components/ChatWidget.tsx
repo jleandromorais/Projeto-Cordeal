@@ -15,8 +15,12 @@ interface ChatWidgetProps {
 const ChatWidget: React.FC<ChatWidgetProps> = ({ onClose }) => {
   const { currentUser } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
-    // Mensagem inicial da IA
-    { id: 1, text: "Olá! Como posso ajudar você hoje?", sender: 'ai' }
+    // Mensagem inicial personalizada do Neves
+    { 
+      id: 1, 
+      text: "Olá! Sou o Neves, seu assistente virtual de aprendizagem. Estou aqui para tirar suas dúvidas sobre matemática, ajudar com exercícios e explicar conceitos. Como posso te ajudar hoje?", 
+      sender: 'ai' 
+    }
   ]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);

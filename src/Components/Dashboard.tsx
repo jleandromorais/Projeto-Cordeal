@@ -54,7 +54,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ userName }) => {
             fetch(`${API_URL}/calendar/events`, { headers: authHeader }),
             fetch(`${API_URL}/dashboard/notes`, { headers: authHeader })
           ]);
-          if (metricsRes.ok) setMetrics(await metricsRes.json());
+          if (metricsRes.ok) {
+            const data = await metricsRes.json();
+            // O backend retorna { stats: {...}, modules: {...} }
+            // Precisamos acessar data.stats
+            if (data.stats) {
+              setMetrics({
+                questoesRespondidas: data.stats.questoesRespondidas || 0,
+                horasDedicadas: data.stats.horasDedicadas || 0
+              });
+            }
+          }
           if (eventsRes.ok) setEvents(await eventsRes.json());
           if (notesRes.ok) {
             const notesData = await notesRes.json();
