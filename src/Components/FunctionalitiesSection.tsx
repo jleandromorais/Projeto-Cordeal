@@ -28,7 +28,7 @@ const featuresData: FeatureCardData[] = [
   {
     iconSource: iconGamificacao,
     title: 'Gamificação',
-    description: 'O sistema de gamificação é voltado para o aprendizado contínuo/evolutivo, guiando o estudante desde a base dos conteúdos até o nível mais complexo. O estudante ganha pontos a cada atividade concluída e mais pontos a cada fase feita.',
+    description: 'O sistema de gamificação é voltado para o aprendizado contínuo/evolutivo, guiando o estudante desde a base dos conteúdos até o nível mais complexo. O estudante ganha pontos a cada atividade concluída e mais pontos a cada fase concluída.',
   },
   {
     iconSource: iconForum,
@@ -38,7 +38,7 @@ const featuresData: FeatureCardData[] = [
   {
     iconSource: iconNeves,
     title: 'Neves',
-    description: 'Este recurso foi desenvolvido para auxiliar os estudantes ao longo da jornada de aprendizagem, oferecendo apoio com dúvidas, explicações de conteúdo, orientações sobre atividades e uso da plataforma. Utilize sempre que precisar de suporte rápido e personalizado.',
+    description: 'Este recurso foi desenvolvido para auxiliar os estudantes ao longo da jornada de aprendizagem, oferecendo apoio com tira-dúvidas, explicações de conteúdo, orientações sobre atividades e uso da plataforma. Utilize sempre que precisar de suporte rápido e personalizado.',
   },
 ];
 

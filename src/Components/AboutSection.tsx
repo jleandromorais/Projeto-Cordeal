@@ -17,17 +17,13 @@ const AboutSection: React.FC = () => {
           </div>
           
           <p className={styles.descriptionParagraph}>
-            O projeto foi desenvolvido com o objetivo de auxiliar estudantes durante o processo de aprendizagem, fazendo com que esse exercício seja leve e proveitoso. Aqui terão a oportunidade de poder extrair o melhor de si e acompanhar seu rendimento enquanto se diverte.
+            A plataforma foi desenvolvida com o objetivo de auxiliar estudantes durante o processo de aprendizagem, fazendo com que esse exercício seja leve e proveitoso. Aqui terão a oportunidade de poder extrair o melhor de si e acompanhar seu rendimento enquanto se divertem.
           </p>
           
           <h3 className={styles.cordealHeading}>CORDEAL</h3>
           
           <p className={styles.descriptionParagraph}>
-            O nome se deu a partir de representações significativas para os desenvolvedores. Trata-se da junção das palavras "cardinal", fazendo alusão aos números, "cordial", trazendo a gentileza, respeito e educação, e "cordel", representando regionalidade e homenageando o idealizador do projeto, professor João Neves, que é entusiasta nesse tipo de arte.
-          </p>
-          
-          <p className={styles.descriptionParagraph}>
-            Professor de exatas e amante de arte, João Neves é a cara do Cordeal. Sendo representado a partir da ilustração que faz parte da composição da nossa identidade visual com muito carisma e personalidade.
+            O nome tem origem a partir de representações significativas para os desenvolvedores. Trata-se da junção das palavras "cardinal", fazendo alusão aos números, "cordial", trazendo a gentileza, respeito e educação, e "cordel", representando regionalidade e homenageando o idealizador do projeto, professor João Neves, entusiasta nesse tipo de arte.
           </p>
         </div>
         

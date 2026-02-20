@@ -55,12 +55,29 @@
  
 .navItem {
   text-decoration: none;
-  color: #033B5B; /* Cor dos itens do menu */
   font-size: 16px;
   font-weight: 600; /* Deixa o texto um pouco mais forte */
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Gradiente de cores nos itens do menu - do mais claro ao mais escuro */
+.navList li:nth-child(1) .navItem {
+  color: #7BC4E8; /* Azul muito claro - Início */
+}
+
+.navList li:nth-child(2) .navItem {
+  color: #419EBF; /* Azul médio claro - Quem somos */
+}
+
+.navList li:nth-child(3) .navItem {
+  color: #1A6B8A; /* Azul médio escuro - O que é */
+}
+
+.navList li:nth-child(4) .navItem {
+  color: #033B5B; /* Azul escuro - Sobre */
 }
  
 .navItem:hover {
   color: #FFFFFF; /* Muda para branco no hover */
+  transform: translateY(-2px); /* Eleva um pouco no hover */
 }
