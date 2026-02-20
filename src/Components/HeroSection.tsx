@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onEnterClick }) => {
           </h2>
           
           <p className={styles.heroDescription}>
-            Cordeal é uma plataforma de aprendizagem gamificada que transforma o estudo em uma jornada envolvente. Com desafios interativos, trilhas personalizadas e ferramentas de monitoramento, estudantes aprendem com mais leveza e educadores acompanham o progresso com clareza.
+            Cordeal é uma plataforma de aprendizagem gamificada que transforma o estudo em uma jornada envolvente. Com desafios interativos, trilhas personalizadas e ferramentas de monitoramento, você aprende com mais leveza e educadores acompanham o progresso com clareza.
           </p>
           
           <div className={styles.heroButtonsGroup}>
