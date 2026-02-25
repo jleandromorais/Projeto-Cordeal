@@ -18,7 +18,7 @@ const featuresData: FeatureCardData[] = [
   {
     iconSource: iconFeedback,
     title: 'Área de feedback',
-    description: 'Este espaço é reservado para você compartilhar suas opiniões sobre as aulas, conteúdos, professores ou a plataforma. Seu feedback é muito importante para que possamos melhorar continuamente sua experiência de aprendizado. Fique à vontade para deixar sugestões, elogios ou críticas construtivas.',
+    description: 'Este espaço é reservado para o estudante compartilhar suas opiniões sobre as aulas, conteúdos, professores ou a plataforma. O feedback é muito importante para que possamos melhorar continuamente sua experiência de aprendizado. Fique à vontade para deixar sugestões, elogios ou críticas construtivas.',
   },
   {
     iconSource: iconReforco,
@@ -33,7 +33,7 @@ const featuresData: FeatureCardData[] = [
   {
     iconSource: iconForum,
     title: 'Fórum de discussão',
-    description: 'Este espaço é destinado à interação entre alunos e professores, promovendo a troca de ideias, o esclarecimento de dúvidas e o debate sobre os conteúdos abordados. A participação contribui para o enriquecimento do aprendizado e o fortalecimento da comunidade acadêmica.',
+    description: 'Este espaço é destinado à interação entre estudantes e professores, promovendo a troca de ideias, o esclarecimento de dúvidas e o debate sobre os conteúdos abordados. A participação contribui para o enriquecimento do aprendizado e o fortalecimento da comunidade acadêmica.',
   },
   {
     iconSource: iconNeves,
