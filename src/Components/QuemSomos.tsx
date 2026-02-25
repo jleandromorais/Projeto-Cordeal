@@ -41,19 +41,15 @@ const QuemSomos: React.FC = () => {
 
           {/* Textos descritivos */}
           <p className={styles.bodyText}>
-            Estudantes do 2º período do curso de Análise e Desenvolvimento de Sistemas da Cesar School, somos os responsáveis pelo desenvolvimento deste projeto, criado com o objetivo de mostrar como a tecnologia pode ser usada de forma prática e inteligente para apoiar o aprendizado.
+            Somos estudantes do 4º período de Análise e Desenvolvimento de Sistemas na CESAR School e idealizadores deste projeto. Nossa missão é clara: demonstrar como a tecnologia, quando aplicada com propósito, pode transformar o aprendizado em uma experiência prática e inteligente.
           </p>
 
           <p className={styles.bodyText}>
-            A ideia do site surgiu a partir de uma proposta do professor João Neves, que nos desafiou a pensar em soluções reais para os desafios enfrentados na disciplina de Matemática para programação. Como muitos colegas, também passamos por essas dificuldades – e foi justamente essa vivência que nos inspirou a criar uma plataforma feita por alunos, para alunos.
+            O projeto nasceu de um desafio proposto pelo professor João Neves durante a monitoria de Matemática para Programação no 2º período. Como também enfrentamos as complexidades da matéria, decidimos transformar nossas dificuldades em solução. O resultado é uma plataforma feita por alunos, para alunos, unindo teoria e prática em um ambiente interativo.
           </p>
 
           <p className={styles.bodyText}>
-            Reunimos nossos conhecimentos em tecnologia e programação para desenvolver um ambiente interativo, com conteúdos didáticos, exemplos práticos e ferramentas que facilitam a compreensão dos conceitos. Nosso foco é tornar o processo de aprendizado mais leve, acessível e eficiente, por meio da colaboração e da inovação.
-          </p>
-
-          <p className={styles.bodyText}>
-            Mais do que um projeto acadêmico, este site é um espaço de apoio, troca e construção conjunta. Esperamos que ele ajude você a estudar, revisar e, quem sabe, até gostar de cálculo.
+            Aqui, aplicamos nossos conhecimentos em desenvolvimento para oferecer conteúdos didáticos e ferramentas que simplificam conceitos abstratos. Mais do que um trabalho acadêmico, este site é um ecossistema de apoio e inovação. Esperamos que ele seja seu aliado nos estudos e que ajude você a encarar o cálculo sob uma nova perspectiva.
           </p>
 
           {/* Seção da Equipe */}
